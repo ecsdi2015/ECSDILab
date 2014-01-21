@@ -1,3 +1,16 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Dec 27 15:58:13 2013
+
+Demo de consulta del servicio de hoteles ean.com
+
+Para poder usarlo hay que registrarse y obtener una clave de desarrollador en  la direccion
+
+https://devsecure.ean.com/member/register
+
+@author: javier
+"""
+
 __author__ = 'javier'
 
 
