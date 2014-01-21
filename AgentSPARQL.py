@@ -15,8 +15,8 @@ sparql = SPARQLWrapper("http://chandra.lsi.upc.edu:8890/sparql")
 # """)
 
 sparql.setQuery("""
-SELECT  ?subj, ?pred, ?lit
-WHERE { ?subj ?pred ?lit}
+SELECT  ?subj,  ?lit
+WHERE { ?subj foaf:lastname ?lit}
 """)
 
 sparql.setReturnFormat(JSON)
