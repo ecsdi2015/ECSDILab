@@ -22,10 +22,13 @@ from rdflib import plugin
 
 g = Graph()
 
-g.parse('/home/javier/Documentos/ECSDI/code/ExampOnto.owl')
+g.parse('/home/javier/fipa-acl.owl')
 
-for (a,b,c) in g:
-    print a,b,c
+spa = Namespace('http://www.nuin.org/ontology/fipa/acl#')
+item=spa.FipaAclMessage
+
+for (a,b,c) in g.triples((None,None,item)):
+     print a,b,c
 
 #for stmt in g:
 #    pprint.pprint(stmt)
