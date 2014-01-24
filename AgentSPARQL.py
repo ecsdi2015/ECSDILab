@@ -2,9 +2,12 @@ __author__ = 'bejar'
 
 from SPARQLWrapper import SPARQLWrapper, JSON, TURTLE, XML
 from rdflib import RDF, RDFS
-sparql = SPARQLWrapper("http://lod2.openlinksw.com/sparql")
-#sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-sparql = SPARQLWrapper("http://chandra.lsi.upc.edu:8890/sparql")
+
+DBPEDIA = "http://dbpedia.org/sparql"
+OPENLINK = "http://lod2.openlinksw.com/sparql"
+CHANDRA = "http://chandra.lsi.upc.edu:8890/sparql"
+
+sparql = SPARQLWrapper(DBPEDIA)
 
 # sparql.setQuery("""
 #     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -15,14 +18,25 @@ sparql = SPARQLWrapper("http://chandra.lsi.upc.edu:8890/sparql")
 # """)
 
 sparql.setQuery("""
-SELECT  ?subj,  ?lit
-WHERE { ?subj foaf:name ?lit}
-""")
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dbpedia: <http://dbpedia.org/>
 
+SELECT ?isValueOf ?label
+WHERE
+  { ?isValueOf rdf:type <http://dbpedia.org/ontology/Airline>.
+    ?isValueOf rdfs:label  ?label
+FILTER (lang(?label) = "en")
+}
+""")
+#WHERE { ?subj <rdf:type> <http://dbpedia.org/ontology/Airline> }
 sparql.setReturnFormat(JSON)
 results = sparql.query()
+print results.next()
+#print results.response
 results.print_results()
-
+for r in results:
+    print r
 print
 
 # sparql = SPARQLWrapper("http://linkedgeodata.org/sparql")
