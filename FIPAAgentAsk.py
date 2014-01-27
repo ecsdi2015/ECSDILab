@@ -1,5 +1,16 @@
-__author__ = 'javier'
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Dec 27 15:58:13 2013
 
+Agente que realiza peticiones
+
+Demo de agente que utiliza las performativas FIPA para comunicación entre agentes
+Las performativas estan definidas en la ontologia fipa-acl.owl
+
+@author: javier
+"""
+
+__author__ = 'javier'
 
 import requests
 from rdflib import Namespace, URIRef, Graph, ConjunctiveGraph, Literal

@@ -2,6 +2,8 @@
 """
 Created on Fri Dec 27 15:58:13 2013
 
+Agente que responde a peticiones
+
 Demo de agente que utiliza las performativas FIPA para comunicación entre agentes
 Las performativas estan definidas en la ontologia fipa-acl.owl
 
