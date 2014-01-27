@@ -2,9 +2,9 @@ __author__ = 'bejar'
 
 from SPARQLWrapper import SPARQLWrapper, JSON, TURTLE, XML
 from rdflib import RDF, RDFS
-sparql = SPARQLWrapper("http://lod2.openlinksw.com/sparql")
-#sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-sparql = SPARQLWrapper("http://chandra.lsi.upc.edu:8890/sparql")
+#sparql = SPARQLWrapper("http://lod2.openlinksw.com/sparql")
+sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+#sparql = SPARQLWrapper("http://chandra.lsi.upc.edu:8890/sparql")
 
 # sparql.setQuery("""
 #     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -15,8 +15,9 @@ sparql = SPARQLWrapper("http://chandra.lsi.upc.edu:8890/sparql")
 # """)
 
 sparql.setQuery("""
-SELECT  ?subj,  ?lit
-WHERE { ?subj foaf:name ?lit}
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT  ?subj, ?rel
+    WHERE { ?subj ?rel <http://dbpedia.org/resource/Barcelona>}
 """)
 
 sparql.setReturnFormat(JSON)
