@@ -2,9 +2,15 @@ __author__ = 'bejar'
 
 from SPARQLWrapper import SPARQLWrapper, JSON, TURTLE, XML
 from rdflib import RDF, RDFS
-#sparql = SPARQLWrapper("http://lod2.openlinksw.com/sparql")
-sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-#sparql = SPARQLWrapper("http://chandra.lsi.upc.edu:8890/sparql")
+
+DBPEDIA = "http://dbpedia.org/sparql"
+GEODATA = "http://linkedgeodata.org/sparql"
+CHANDRA = "http://chandra.lsi.upc.edu:8890/sparql"
+OPENLINK = "http://lod2.openlinksw.com/sparql"
+
+
+sparql = SPARQLWrapper(CHANDRA)
+
 
 # sparql.setQuery("""
 #     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -16,8 +22,9 @@ sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 
 sparql.setQuery("""
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT  ?subj, ?rel
-    WHERE { ?subj ?rel <http://dbpedia.org/resource/Barcelona>}
+    SELECT  DISTINCT ?subj, ?prop,  ?rel
+    WHERE { ?subj ?prop ?rel}
+    LIMIT 20
 """)
 
 sparql.setReturnFormat(JSON)
@@ -26,8 +33,7 @@ results.print_results()
 
 print
 
-# sparql = SPARQLWrapper("http://linkedgeodata.org/sparql")
-#
+
 # sparql.setQuery("""
 # Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 # Prefix ogc: <http://www.opengis.net/ont/geosparql#>
