@@ -16,6 +16,11 @@ import requests
 from rdflib import Namespace, URIRef, Graph, ConjunctiveGraph, Literal
 from rdflib.namespace import FOAF, RDF
 from rdflib.plugins.memory import IOMemory
+import socket
+
+# Configuration stuff
+hostname = socket.gethostname()
+port = 9001
 
 acl = Namespace("http://www.nuin.org/ontology/fipa/acl#")
 agn = Namespace("http;//www.agentes.org#")

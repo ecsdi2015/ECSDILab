@@ -16,6 +16,7 @@ from  multiprocessing import Process
 from flask import Flask,request
 from rdflib import Graph, RDF, RDFS, OWL, Namespace, Literal
 from rdflib.namespace import FOAF
+import socket
 
 app = Flask(__name__)
 

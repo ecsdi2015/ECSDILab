@@ -2,11 +2,7 @@ __author__ = 'bejar'
 
 from SPARQLWrapper import SPARQLWrapper, JSON, TURTLE, XML
 from rdflib import RDF, RDFS
-
-DBPEDIA = "http://dbpedia.org/sparql"
-GEODATA = "http://linkedgeodata.org/sparql"
-CHANDRA = "http://chandra.lsi.upc.edu:8890/sparql"
-OPENLINK = "http://lod2.openlinksw.com/sparql"
+from SPARQLPoints import DBPEDIA, CHANDRA, OPENLINK, GEODATA
 
 
 sparql = SPARQLWrapper(CHANDRA)

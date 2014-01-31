@@ -2,7 +2,10 @@
 """
 File: SimpleAgent
 
-Created on 30/01/2014 11:32 
+Created on 30/01/2014 11:32
+
+Agente Simple que llama al agente de registro, envia al agente de registro
+el mensaje para que pare y acaba su ejecucion
 
 @author: bejar
 
@@ -10,52 +13,122 @@ Created on 30/01/2014 11:32
 
 __author__ = 'bejar'
 
-#from  multiprocessing import Process
-#from flask import Flask,request
+from  multiprocessing import Process
+from flask import Flask,request
 from rdflib import Graph, RDF, RDFS, OWL, Namespace, Literal, URIRef
 from rdflib.namespace import FOAF, RDF
 import requests
+from OntoNamespaces import ACL, OWLSProfile, OWLSService
+import socket
+from AgentUtil import  shutdown_server, send_message
+
+# Configuration stuff
+hostname = socket.gethostname()
+port = 9001
+
+# Flask stuff
+app = Flask(__name__)
+
+# Configuration constants and variables
+agn = Namespace("http;//www.agentes.org#")
+mss_cnt = 0
+agentname = 'Agente1'
+agn = Namespace("http;//www.agentes.org#")
+servuri = agn.Agente1
+ra_address= 'http://polaris.lsi.upc.edu:9000/Register'
+ra_stop= 'http://polaris.lsi.upc.edu:9000/Stop'
+self_stop= 'http://polaris.lsi.upc.edu:9001/Stop'
+stopall = False
+
+graph = Graph() # Global graph triplestore
 
 
+def register_message(gmess):
+    """
+    Envia un mensaje como una performativa FIPA acl
 
-def sendmessage(gmess):
+    :param gmess:
+    :return:
+    """
     global mss_cnt
-    ms = acl['message{:{fill}4d}'.format(mss_cnt, fill='0')]
-    mss_cnt +=1
-    gmess.bind('acl', acl)
-    gmess.bind('owlss', OWLSService)
+
+    servuriprof = URIRef('http://agentes.com/agente1profile')
     gmess.bind('owlsp', OWLSProfile)
+    gmess.bind('owlss', OWLSService)
+    gmess.add((servuri, RDF.type, OWLSService.Service))
+    gmess.add((servuriprof, RDF.type, OWLSProfile.Profile))
+    gmess.add((servuri, OWLSService.presents, servuriprof))
+    gmess.add((servuri, OWLSProfile.serviceName, Literal(agentname)))
     gmess.bind('foaf', FOAF)
 
-    gmess.add((ms, RDF.type, acl.SpeechAct))
-    gmess.add((ms, acl.performative, acl.request))
     gmess.add((servuri, FOAF.name, Literal(agentname)))
-    gmess.add((ms, acl.sender, servuri))
-    msg = gmess.serialize(format='xml')
-    r = requests.get('http://chandra.lsi.upc.edu:8890/Register', params={'content': msg})
 
-    gr = Graph()
-    gr.parse(data=r.text)
+    gr = send_message(gmess, perf= ACL.request, address=ra_address, sender= servuri)
+    mss_cnt +=1
+
+    return gr
+
+
+@app.route("/comm")
+def comm_behavior():
+    return 'Hello'
+
+
+@app.route("/Stop")
+def stop():
+    """
+    Entrypoint que para el agente
+
+    :return:
+    """
+    tidyup()
+    shutdown_server()
+    return "Parando Servidor"
+
+
+def webservices():
+    """
+    Puesta en marcha del servicio web de Flask
+    para poder recibir mensajes
+
+    """
+
+
+def tidyup():
+    """
+    Acciones previas a parar el agente
+
+    """
+    pass
+    #graph.close()
+
+
+def agentbehavior1():
+    """
+    Comportamiento del agente
+
+    :return:
+    """
+
+    gr = register_message(Graph())
 
     print gr.serialize(format='turtle')
 
+    r = requests.get(ra_stop)
+    print r.text
 
-mss_cnt = 0
-agentname = 'Agente1'
-OWLSService = Namespace('http://www.daml.org/services/owl-s/1.2/Service.owl#')
-OWLSProfile = Namespace('http://www.daml.org/services/owl-s/1.2/Profile.owl#')
-acl = Namespace("http://www.nuin.org/ontology/fipa/acl#")
-agn = Namespace("http;//www.agentes.org#")
+    # Seldestruct
+    requests.get(self_stop)
 
-gm = Graph()
 
-servuri = agn.Agente1
-servuriprof = URIRef('http://agentes.com/agente1profile')
+if __name__ == '__main__':
+    # Ponemos en marcha los behaviors
+    ab1=Process(target=agentbehavior1)
+    ab1.start()
 
-gm.add((servuri, RDF.type, OWLSService.Service))
-gm.add((servuriprof, RDF.type, OWLSProfile.Profile))
-gm.add((servuri, OWLSService.presents, servuriprof))
-gm.add((servuri, OWLSProfile.serviceName, Literal(agentname)))
+    # Ponemos en marcha el servidor
+    app.run(host=hostname, port=port)
 
-sendmessage(gm)
-sendmessage(gm)
+    # Esperamos a que acaben los behaviors
+    ab1.join()
+    print 'The End'
