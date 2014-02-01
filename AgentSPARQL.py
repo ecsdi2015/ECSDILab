@@ -5,7 +5,7 @@ from rdflib import RDF, RDFS
 from SPARQLPoints import DBPEDIA, CHANDRA, OPENLINK, GEODATA
 
 
-sparql = SPARQLWrapper(CHANDRA)
+sparql = SPARQLWrapper(DBPEDIA)
 
 
 # sparql.setQuery("""
@@ -16,18 +16,43 @@ sparql = SPARQLWrapper(CHANDRA)
 #             ?val  <http://yago-knowledge.org/resource/isLocatedIn> ?label}
 # """)
 
+f = open('/home/javier/DBAirports.csv', 'w')
+
 sparql.setQuery("""
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT  DISTINCT ?subj, ?prop,  ?rel
-    WHERE { ?subj ?prop ?rel}
-    LIMIT 20
+    PREFIX dbpedia2: <http://dbpedia.org/property/>
+    SELECT  DISTINCT *
+    WHERE { ?subject rdf:type <http://dbpedia.org/ontology/Airport>.
+            ?subject <http://dbpedia.org/ontology/iataLocationIdentifier> ?IATA.
+            ?subject <http://dbpedia.org/property/cityServed> ?city.
+            ?subject <http://dbpedia.org/property/name> ?name.
+            ?subject <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long.
+            ?subject <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.
+            FILTER (lang(?name) = "en" or lang(?name) = "" )
+          }
 """)
 
 sparql.setReturnFormat(JSON)
-results = sparql.query()
-results.print_results()
+results = sparql.query().convert()
+#results.print_results()
 
-print
+for result in results["results"]["bindings"]:
+    try:
+        f.write(result['subject']['value']+','
+                +result['name']['value']+','
+                +result['IATA']['value']+','
+                +result['city']['value']+','
+                +result['long']['value']+','
+                +result['lat']['value']
+                +'\n')
+    except UnicodeEncodeError:
+        pass
+
+f.close()
+
+
+
+
 
 
 # sparql.setQuery("""
