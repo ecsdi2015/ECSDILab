@@ -89,10 +89,8 @@ http://dbpedia.org/resource/Tucson_International_Airport,Tucson International Ai
 http://dbpedia.org/resource/Tucson_International_Airport,Tucson International Airport,TUS,http://dbpedia.org/resource/Tucson,_Arizona,-110.917,32.1161
 http://dbpedia.org/resource/Tucson_International_Airport,Tucson International Airport,TUS,http://dbpedia.org/resource/Tucson,_Arizona,-110.917,32.1833
 http://dbpedia.org/resource/Tulsa_International_Airport,Tulsa International Airport,TUL,http://dbpedia.org/resource/Tulsa,_Oklahoma,-95.8881,36.1983
-http://dbpedia.org/resource/U-Tapao_International_Airport,U-Tapao-Rayong-Pattaya International Airport
-60px|,UTP,http://dbpedia.org/resource/Rayong,101.005,12.6797
-http://dbpedia.org/resource/U-Tapao_International_Airport,U-Tapao-Rayong-Pattaya International Airport
-60px|,UTP,http://dbpedia.org/resource/Thailand,101.005,12.6797
+http://dbpedia.org/resource/U-Tapao_International_Airport,U-Tapao-Rayong-Pattaya International Airport,UTP,http://dbpedia.org/resource/Rayong,101.005,12.6797
+http://dbpedia.org/resource/U-Tapao_International_Airport,U-Tapao-Rayong-Pattaya International Airport,UTP,http://dbpedia.org/resource/Thailand,101.005,12.6797
 http://dbpedia.org/resource/University_of_Illinois_Willard_Airport,University of Illinois,CMI,http://dbpedia.org/resource/Champaign%E2%80%93Urbana_metropolitan_area,-88.2781,40.0392
 http://dbpedia.org/resource/University_of_Illinois_Willard_Airport,Willard Airport,CMI,http://dbpedia.org/resource/Champaign%E2%80%93Urbana_metropolitan_area,-88.2781,40.0392
 http://dbpedia.org/resource/Vancouver_International_Airport,Vancouver International Airport,YVR,http://dbpedia.org/resource/Metro_Vancouver,-123.184,49.1947
@@ -689,8 +687,7 @@ http://dbpedia.org/resource/Fredericton_International_Airport,Fredericton Intern
 http://dbpedia.org/resource/Fredericton_International_Airport,Fredericton International Airport,YFC,http://dbpedia.org/resource/New_Brunswick,-66.5372,45.8689
 http://dbpedia.org/resource/John_C._Munro_Hamilton_International_Airport,John C. Munro Hamilton International Airport,YHM,http://dbpedia.org/resource/Hamilton,_Ontario,-79.935,43.1736
 http://dbpedia.org/resource/Leeds_Bradford_International_Airport,Leeds Bradford International Airport,LBA,West and North Yorkshire,-1.66056,53.8658
-http://dbpedia.org/resource/Leeds_Bradford_International_Airport,Royal Air Force Station Yeadon
-90px,LBA,West and North Yorkshire,-1.66056,53.8658
+http://dbpedia.org/resource/Leeds_Bradford_International_Airport,Royal Air Force Station Yeadon,LBA,West and North Yorkshire,-1.66056,53.8658
 http://dbpedia.org/resource/Morava_Airport,Morava Airport,KVO,http://dbpedia.org/resource/Kraljevo,20.586,43.8179
 http://dbpedia.org/resource/Plant_42,Plant 42/Palmdale Regional Airport,PMD,http://dbpedia.org/resource/California,-118.084,34.63
 http://dbpedia.org/resource/Plant_42,Plant 42/Palmdale Regional Airport,PMD,http://dbpedia.org/resource/Palmdale,_California,-118.084,34.63
@@ -1268,10 +1265,8 @@ http://dbpedia.org/resource/Wilkes-Barre_Wyoming_Valley_Airport,Wilkes-Barre Wyo
 http://dbpedia.org/resource/Willows-Glenn_County_Airport,Willows-Glenn County Airport,WLW,http://dbpedia.org/resource/Willows,_California,-122.217,39.5158
 http://dbpedia.org/resource/Wings_Field,Wings Field,BBX,http://dbpedia.org/resource/Philadelphia,-75.265,40.1375
 http://dbpedia.org/resource/Winkler_County_Airport,Winkler County Airport,INK,http://dbpedia.org/resource/Wink,_Texas,-103.202,31.7797
-http://dbpedia.org/resource/Woensdrecht_Air_Base,Woensdrecht Air Base
-65px,WOE,http://dbpedia.org/resource/Bergen_op_Zoom,4.34167,51.4489
-http://dbpedia.org/resource/Woensdrecht_Air_Base,Woensdrecht Air Base
-65px,WOE,http://dbpedia.org/resource/Netherlands,4.34167,51.4489
+http://dbpedia.org/resource/Woensdrecht_Air_Base,Woensdrecht Air Base,WOE,http://dbpedia.org/resource/Bergen_op_Zoom,4.34167,51.4489
+http://dbpedia.org/resource/Woensdrecht_Air_Base,Woensdrecht Air Base,WOE,http://dbpedia.org/resource/Netherlands,4.34167,51.4489
 http://dbpedia.org/resource/Woja_Airport,Woja Airport,WJA,Woja, Ailinglaplap Atoll, Marshall Islands,168.55,7.45083
 http://dbpedia.org/resource/Woodward_Field_(airport),Woodward Field,CDN,http://dbpedia.org/resource/Camden,_South_Carolina,-80.565,34.2836
 http://dbpedia.org/resource/Yibin_Caiba_Airport,Yibin Caiba Airport,YBP,Yibin, Sichuan, China,104.544,28.8003
@@ -2261,12 +2256,9 @@ http://dbpedia.org/resource/Dickinson_Theodore_Roosevelt_Regional_Airport,Dickin
 http://dbpedia.org/resource/Diebougou_Airport,Diebougou Airport,XDE,http://dbpedia.org/resource/Di%C3%A9bougou,-3.25,10.95
 http://dbpedia.org/resource/Diego_Aracena_International_Airport,Diego Aracena International Airport,IQQ,http://dbpedia.org/resource/Chile,-70.1814,-20.5353
 http://dbpedia.org/resource/Diego_Aracena_International_Airport,Diego Aracena International Airport,IQQ,http://dbpedia.org/resource/Iquique,-70.1814,-20.5353
-http://dbpedia.org/resource/Dijon_Air_Base,Dijon Air Base
-50px,DIJ,http://dbpedia.org/resource/France,5.08889,47.2739
-http://dbpedia.org/resource/Dijon_Air_Base,Dijon Air Base
-50px,DIJ,http://dbpedia.org/resource/Dijon,5.08889,47.2739
-http://dbpedia.org/resource/Dijon_Air_Base,Dijon Air Base
-50px,DIJ,http://dbpedia.org/resource/Burgundy,5.08889,47.2739
+http://dbpedia.org/resource/Dijon_Air_Base,Dijon Air Base,DIJ,http://dbpedia.org/resource/France,5.08889,47.2739
+http://dbpedia.org/resource/Dijon_Air_Base,Dijon Air Base,DIJ,http://dbpedia.org/resource/Dijon,5.08889,47.2739
+http://dbpedia.org/resource/Dijon_Air_Base,Dijon Air Base,DIJ,http://dbpedia.org/resource/Burgundy,5.08889,47.2739
 http://dbpedia.org/resource/Dillingham_Airport,Dillingham Airport,DLG,http://dbpedia.org/resource/Dillingham,_Alaska,-158.506,59.0447
 http://dbpedia.org/resource/Dillon_Airport,Dillon Airport,DLN,http://dbpedia.org/resource/Dillon,_Montana,-112.552,45.2553
 http://dbpedia.org/resource/Dillon_County_Airport,Dillon County Airport,DLL,http://dbpedia.org/resource/Dillon,_South_Carolina,-79.3686,34.4492
@@ -2828,8 +2820,7 @@ http://dbpedia.org/resource/Humait%C3%A1_Airport,Francisco Correa da Cruz Airpor
 http://dbpedia.org/resource/Humberside_Airport,Humberside Airport,HUY,http://dbpedia.org/resource/East_Riding_of_Yorkshire,-0.350833,53.5744
 http://dbpedia.org/resource/Humberside_Airport,Humberside Airport,HUY,http://dbpedia.org/resource/Lincolnshire,-0.350833,53.5744
 http://dbpedia.org/resource/Humboldt_Municipal_Airport_(Iowa),Humboldt Municipal Airport,HUD,http://dbpedia.org/resource/Humboldt,_Iowa,-94.2453,42.7361
-http://dbpedia.org/resource/Hunter_Army_Airfield,Hunter Army Airfield
-50px 50px 50px,SVN,http://dbpedia.org/resource/Fort_Stewart,-81.1456,32.01
+http://dbpedia.org/resource/Hunter_Army_Airfield,Hunter Army Airfield,SVN,http://dbpedia.org/resource/Fort_Stewart,-81.1456,32.01
 http://dbpedia.org/resource/Huntsville_Regional_Airport,Bruce Brothers Huntsville Regional Airport,HTV,http://dbpedia.org/resource/Huntsville,_Texas,-95.5872,30.7469
 http://dbpedia.org/resource/Huron_Regional_Airport,Huron Regional Airport,HON,http://dbpedia.org/resource/Huron,_South_Dakota,-98.2286,44.3853
 http://dbpedia.org/resource/Hutchinson_County_Airport,Hutchinson County Airport,BGD,http://dbpedia.org/resource/Hutchinson_County,_Texas,-101.394,35.7008
@@ -3204,10 +3195,8 @@ http://dbpedia.org/resource/Lae_Airport,Lae Airport,LML,Lae, Lae Atoll, Marshall
 http://dbpedia.org/resource/Lafayette_Regional_Airport,Lafayette Regional Airport,LFT,http://dbpedia.org/resource/Lafayette,_Louisiana,-91.9875,30.2053
 http://dbpedia.org/resource/Lago_Agrio_Airport,Lago Agrio Airport,LGQ,http://dbpedia.org/resource/Nueva_Loja,-76.8694,0.0925
 http://dbpedia.org/resource/Lago_Agrio_Airport,Lago Agrio Airport,LGQ,http://dbpedia.org/resource/Ecuador,-76.8694,0.0925
-http://dbpedia.org/resource/Lajes_Field,Lajes Air Base
-50px,TER,http://dbpedia.org/resource/Praia_da_Vit%C3%B3ria,-27.0908,38.7619
-http://dbpedia.org/resource/Lajes_Field,Lajes Air Base
-50px,TER,http://dbpedia.org/resource/Angra_do_Hero%C3%ADsmo,-27.0908,38.7619
+http://dbpedia.org/resource/Lajes_Field,Lajes Air Base,TER,http://dbpedia.org/resource/Praia_da_Vit%C3%B3ria,-27.0908,38.7619
+http://dbpedia.org/resource/Lajes_Field,Lajes Air Base,TER,http://dbpedia.org/resource/Angra_do_Hero%C3%ADsmo,-27.0908,38.7619
 http://dbpedia.org/resource/Lake_County_Airport_(Colorado),Lake County Airport,LXV,http://dbpedia.org/resource/Leadville,_Colorado,-106.317,39.2203
 http://dbpedia.org/resource/Lake_Cumberland_Regional_Airport,Lake Cumberland Regional Airport,SME,http://dbpedia.org/resource/Somerset,_Kentucky,-84.6156,37.0536
 http://dbpedia.org/resource/Lake_Havasu_City_Airport,Lake Havasu City Airport,HII,http://dbpedia.org/resource/Lake_Havasu_City,_Arizona,-114.358,34.5711
@@ -4245,10 +4234,8 @@ http://dbpedia.org/resource/Red_Lake_Airport,Red Lake Airport,YRL,http://dbpedia
 http://dbpedia.org/resource/Redstone_Army_Airfield,Redstone Army Airfield,HUA,http://dbpedia.org/resource/Redstone_Arsenal,-86.6847,34.6786
 http://dbpedia.org/resource/Reggio_Calabria_Airport,Reggio di Calabria Airport,REG,http://dbpedia.org/resource/Messina,15.6536,38.0719
 http://dbpedia.org/resource/Reggio_Calabria_Airport,Reggio di Calabria Airport,REG,http://dbpedia.org/resource/Reggio_Calabria,15.6536,38.0719
-http://dbpedia.org/resource/Reims_%E2%80%93_Champagne_Air_Base,Reims-Champagne Air Base  
-50px,RHE,http://dbpedia.org/resource/France,4.05083,49.3103
-http://dbpedia.org/resource/Reims_%E2%80%93_Champagne_Air_Base,Reims-Champagne Air Base  
-50px,RHE,http://dbpedia.org/resource/Reims,4.05083,49.3103
+http://dbpedia.org/resource/Reims_%E2%80%93_Champagne_Air_Base,Reims-Champagne Air Base,RHE,http://dbpedia.org/resource/France,4.05083,49.3103
+http://dbpedia.org/resource/Reims_%E2%80%93_Champagne_Air_Base,Reims-Champagne Air Base,RHE,http://dbpedia.org/resource/Reims,4.05083,49.3103
 http://dbpedia.org/resource/Renk_Airport,Renk Airport,n/a,Renk, South Sudan,32.8,11.9
 http://dbpedia.org/resource/Rennes_%E2%80%93_Saint-Jacques_Airport,Rennes - Saint-Jacques Airport,RNS,http://dbpedia.org/resource/France,-1.73222,48.0719
 http://dbpedia.org/resource/Rennes_%E2%80%93_Saint-Jacques_Airport,Rennes - Saint-Jacques Airport,RNS,http://dbpedia.org/resource/Rennes,-1.73222,48.0719

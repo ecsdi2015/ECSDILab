@@ -2,39 +2,54 @@ __author__ = 'javier'
 
 
 import csv
-ifile = open('/home/javier/airlines.csv', "rb")
+ifile = open('FlightData/airlines.csv', "rb")
 
 airlines = csv.reader(ifile)
 
-i=0
-for v in airlines:
-    if v[7] == 'Y' and v[3]!='':
-        #print v[1],v[3],v[6]
-        i += 1
-
-print i
-
-ifile = open('/home/javier/airports.csv', "rb")
+ifile = open('FlightData/airports.csv', "rb")
 
 airports = csv.reader(ifile)
 
-i=0
-for v in airports:
-    if v[4] != '' and v[4] != '\N' and v[5] != '' and v[5] != '\N':
-        #print v[1],v[4],v[5]
-        i += 1
+ifile = open('FlightData/routes.csv', "rb")
+
+routes = csv.reader(ifile)
+
+airprout = set()
+airlrout = set()
 
 
-print i
+for v in routes:
+    airprout.add(v[3])
+    airprout.add(v[5])
+    airlrout.add(v[1])
+
+print len(airlrout), len(airprout)
 
 
-# ofile  = open('/home/javier/airports2.csv', "wb")
+lairp = []
+for ap in airports:
+    if ap[0] in airprout:
+        lairp.append(ap)
 
-# writer = csv.writer(ofile, delimiter=',', quotechar='"')
-#
-# for row in reader:
-#     writer.writerow(row)
-#
-#
-# ifile.close()
-# ofile.close()
+lairl = []
+for al in airlines:
+    if al[0] in airlrout:
+        lairl.append(al)
+
+ofile  = open('FlightData/airports-clean.csv', "wb")
+writer = csv.writer(ofile, delimiter=',', quotechar='"')
+for row in lairp:
+    roww = []
+    roww.append(row[0])
+    roww.append(row[4])
+    writer.writerow(roww)
+ofile.close()
+
+ofile  = open('FlightData/airlines-clean.csv', "wb")
+writer = csv.writer(ofile, delimiter=',', quotechar='"')
+for row in lairl:
+    roww = []
+    roww.append(row[0])
+    roww.append(row[3])
+    writer.writerow(roww)
+ofile.close()
