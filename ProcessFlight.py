@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+File:
+
+Created on 31/01/2014 8:55
+
+@author: bejar
+
+"""
 __author__ = 'javier'
 
 
