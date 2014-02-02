@@ -22,13 +22,15 @@ from rdflib import plugin
 
 g = Graph()
 
-g.parse('/home/javier/fipa-acl.owl')
+g.parse('Ontologias/protonext.ttl',format='turtle')
+ofile  = open('Ontologias/protonext.owl', "wb")
+g.serialize(destination=ofile, format='xml')
 
-spa = Namespace('http://www.nuin.org/ontology/fipa/acl#')
-item=spa.FipaAclMessage
-
-for (a,b,c) in g.triples((None,None,item)):
-     print a,b,c
+# spa = Namespace('http://www.nuin.org/ontology/fipa/acl#')
+# item=spa.FipaAclMessage
+#
+# for (a,b,c) in g.triples((None,None,item)):
+#      print a,b,c
 
 #for stmt in g:
 #    pprint.pprint(stmt)
