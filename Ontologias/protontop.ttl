@@ -699,3 +699,5 @@ rdfs:label
 
 owl:versionInfo
       rdf:type owl:AnnotationProperty .
+
+
