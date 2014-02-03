@@ -29,10 +29,11 @@ r = requests.get(EAN_END_POINT,
                  params={'apiKey': KEY, 'cid': CID, 'numberOfResults': 5,
                          'latitude': '041.40000', 'longitude': '002.16000',
                          'searchRadius': 2, 'searchRadiusUnit': 'KM',
-                         'arrivalDate': '01/30/2014', 'departureDate': '02/05/2014'
+                         'arrivalDate': '03/01/2014', 'departureDate': '03/05/2014'
                  })
 
 dic = r.json()
+
 for hot in dic['HotelListResponse']['HotelList']['HotelSummary']:
     print hot['name']
 
