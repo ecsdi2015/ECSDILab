@@ -38,13 +38,16 @@ sparql.setQuery("""
  Prefix geom: <http://geovocab.org/geometry#>
  Prefix lgdo: <http://linkedgeodata.org/ontology/>
  Prefix dbp: <http://dbpedia.org/ontology/>
+ Prefix dbpp: <http://dbpedia.org/property/>
+ prefix geo:<http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 Select *
    WHERE
   {
-    <http://dbpedia.org/resource/New_York_metropolitan_area> dbp:populationTotal ?t .
+
+    <http://dbpedia.org/resource/London> geo:lat ?lat .
+    <http://dbpedia.org/resource/London> geo:long ?lon .
   }
-  LIMIT 200
  """)
 
 
