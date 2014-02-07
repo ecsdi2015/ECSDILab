@@ -1,11 +1,11 @@
 __author__ = 'bejar'
 
-from SPARQLWrapper import SPARQLWrapper, JSON, TURTLE, XML
-from rdflib import RDF, RDFS
-from SPARQLPoints import DBPEDIA, CHANDRA, OPENLINK, GEODATA, LGEODATA
+from SPARQLWrapper import SPARQLWrapper, JSON
+
+from SPARQLPoints import OPENLINK, DBPEDIA
 
 
-sparql = SPARQLWrapper(OPENLINK)
+sparql = SPARQLWrapper(DBPEDIA)
 
 
 # sparql.setQuery("""
@@ -39,19 +39,20 @@ sparql.setQuery("""
  Prefix lgdo: <http://linkedgeodata.org/ontology/>
  Prefix dbp: <http://dbpedia.org/ontology/>
 
-SELECT DISTINCT *
+Select *
    WHERE
   {
-    ?r a <http://dbpedia.org/ontology/Museum> .
-    ?r dbp:location <http://dbpedia.org/resource/Germany>
+    <http://dbpedia.org/resource/New_York_metropolitan_area> dbp:populationTotal ?t .
   }
-
- LIMIT 100
+  LIMIT 200
  """)
 
 
 sparql.setReturnFormat(JSON)
 results = sparql.query()#.convert()
+
+#print results
+
 results.print_results()
 
 #for result in results["results"]["bindings"]:

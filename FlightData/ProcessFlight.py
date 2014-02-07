@@ -11,15 +11,15 @@ __author__ = 'javier'
 
 
 import csv
-ifile = open('FlightData/airlines.csv', "rb")
+ifile = open('airlines.csv', "rb")
 
 airlines = csv.reader(ifile)
 
-ifile = open('FlightData/airports.csv', "rb")
+ifile = open('airports.csv', "rb")
 
 airports = csv.reader(ifile)
 
-ifile = open('FlightData/routes.csv', "rb")
+ifile = open('routes.csv', "rb")
 
 routes = csv.reader(ifile)
 

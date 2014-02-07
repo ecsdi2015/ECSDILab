@@ -14,13 +14,17 @@ el mensaje para que pare y acaba su ejecucion
 __author__ = 'bejar'
 
 from  multiprocessing import Process
-from flask import Flask,request
-from rdflib import Graph, RDF, RDFS, OWL, Namespace, Literal, URIRef
+import socket
+
+from flask import Flask
+from rdflib import Graph, Namespace, Literal, URIRef
 from rdflib.namespace import FOAF, RDF
 import requests
+
 from OntoNamespaces import ACL, OWLSProfile, OWLSService
-import socket
 from AgentUtil import  shutdown_server, send_message
+
+
 
 # Configuration stuff
 hostname = socket.gethostname()

@@ -12,12 +12,12 @@ Diferentes funciones comunes a los agentes implementados en ECSDI
 
 __author__ = 'bejar'
 
-
-from flask import Flask,request
-from rdflib import Graph, RDF, RDFS, OWL, Namespace, Literal
-from OntoNamespaces import ACL, OWLSProfile, OWLSService
+from flask import request
+from rdflib import Graph
 import requests
-from rdflib.namespace import FOAF, RDF
+from rdflib.namespace import RDF
+
+from OntoNamespaces import ACL
 
 
 def shutdown_server():

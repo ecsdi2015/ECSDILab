@@ -12,16 +12,17 @@ Usa OWL-S profile como ontologia
 
 __author__ = 'bejar'
 
-
 from  multiprocessing import Process, Queue
-from flask import Flask,request
-from rdflib import Graph, RDF, RDFS, OWL, Namespace, Literal
-from rdflib.namespace import FOAF
-import requests
-from  OntoNamespaces import ACL
 import socket
+
+from flask import Flask,request
+from rdflib import Graph, RDF, Namespace, Literal
+from rdflib.namespace import FOAF
+
+from OntoNamespaces import ACL
 from AgentUtil import shutdown_server
-from ctypes import c_int
+
+
 
 # Configuration stuff
 hostname = socket.gethostname()

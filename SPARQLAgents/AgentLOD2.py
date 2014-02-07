@@ -1,8 +1,8 @@
 __author__ = 'javier'
 
-from SPARQLWrapper import SPARQLWrapper, JSON, TURTLE, XML
-from rdflib import RDF, RDFS
-from SPARQLPoints import DBPEDIA, CHANDRA, OPENLINK, GEODATA
+from SPARQLWrapper import SPARQLWrapper, JSON
+
+from SPARQLPoints import OPENLINK
 
 
 sparql = SPARQLWrapper(OPENLINK)

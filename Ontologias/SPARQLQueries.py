@@ -12,9 +12,10 @@ Programa python para enviar queries SPARQL
 """
 __author__ = 'javier'
 
-from SPARQLWrapper import SPARQLWrapper, JSON, TURTLE, XML
-from rdflib import RDF, RDFS
-from SPARQLPoints import DBPEDIA, CHANDRA, OPENLINK, GEODATA
+from SPARQLWrapper import SPARQLWrapper, JSON
+
+from SPARQLPoints import DBPEDIA
+
 
 sparql = SPARQLWrapper(DBPEDIA)
 

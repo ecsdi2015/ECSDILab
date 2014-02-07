@@ -25,4 +25,20 @@ speechact = ACL.SpeechAct
 OWLSService = Namespace('http://www.daml.org/services/owl-s/1.2/Service.owl#')
 OWLSProfile = Namespace('http://www.daml.org/services/owl-s/1.2/Profile.owl#')
 
+# Schema org ontology
+
+SCHEMA = Namespace('http://schema.org/')
+
+# Tickets Ontology
+
+TIO = Namespace(' http://purl.org/tio/ns#')
+
+# Good relations
+
+GR = Namespace('http://purl.org/goodrelations/v1#')
+
+# DBPedia
+
+DBP = Namespace('http://dbpedia.org/ontology/')
+
 

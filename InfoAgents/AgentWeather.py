@@ -15,7 +15,7 @@ __author__ = 'javier'
 import requests
 import pprint
 
-APPID = 'dfac28168db57ae8b01f9dd5481db093'
+
 WEATHER_END_POINT = 'http://api.openweathermap.org/data/2.5/forecast'
 
 

@@ -14,10 +14,9 @@ lgdo:Amenity
 
 """
 
+from SPARQLWrapper import SPARQLWrapper, JSON
 
-from SPARQLWrapper import SPARQLWrapper, JSON, TURTLE, XML
-from rdflib import RDF, RDFS
-from SPARQLPoints import DBPEDIA, CHANDRA, OPENLINK, GEODATA
+from SPARQLPoints import GEODATA
 
 
 sparql = SPARQLWrapper(GEODATA)
