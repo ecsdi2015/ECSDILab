@@ -15,21 +15,22 @@ __author__ = 'bejar'
 from  multiprocessing import Process, Queue
 import socket
 
-from flask import Flask,request
-from rdflib import Graph, RDF, Namespace, Literal
+from flask import Flask, request, render_template
+from rdflib import Graph, RDF, Namespace, Literal, RDFS
 from rdflib.namespace import FOAF
 
 from OntoNamespaces import ACL
 from AgentUtil import shutdown_server
-
-
 
 # Configuration stuff
 hostname = socket.gethostname()
 port = 9000
 
 graph = Graph()
-
+graph.bind('acl', ACL)
+graph.bind('rdf', RDF)
+graph.bind('rdfs', RDFS)
+graph.bind('foaf', FOAF)
 #graph = Graph('Sleepycat')
 
 # first time create the store:
@@ -37,7 +38,7 @@ graph = Graph()
 #graph.close()
 
 sa = ACL.SpeechAct
-agn = Namespace("http;//www.agentes.org#")
+agn = Namespace("http://www.agentes.org#")
 app = Flask(__name__)
 mss_cnt = 0
 
@@ -52,7 +53,7 @@ def register():
     """
     global graph
     global mss_cnt
-    cola1.put('zzz')
+    #cola1.put('zzz')
     message= request.args['content']
     gm = Graph()
     gr = Graph()
@@ -72,14 +73,27 @@ def register():
         gr.add((ms, ACL.performative, ACL.confirm))
         gm.add((agn.juan, FOAF.name, Literal('RegisterAgent')))
         gm.add((ms, ACL.sender, agn.RegisterAgent))
-        graph.open('./myRDFLibStore')
+        #graph.open('./myRDFLibStore')
         graph += gm
     return gr.serialize(format='xml')
 
 
+@app.route('/info')
+def info():
+    """
+    Entrada que da informacion sobre el agente
+    """
+    global graph
+    global mss_cnt
+
+    return render_template('info.html',nmess= mss_cnt, graph= graph.serialize(format='turtle'))
+
+
 @app.route("/Stop")
 def stop():
-    global stopall
+    """
+    Entrada que para el agente
+    """
     print 'Parando Servidor'
     tidyup()
 

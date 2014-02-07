@@ -25,7 +25,7 @@ app = Flask(__name__)
 FIPAONT = Graph()
 FIPAONT.parse("Ontologias/fipa-acl.owl")
 sa = ACL.SpeechAct
-agn = Namespace("http;//www.agentes.org#")
+agn = Namespace("http://www.agentes.org#")
 
 @app.route("/agente")
 def agent1():

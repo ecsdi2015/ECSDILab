@@ -6,12 +6,16 @@ Created on Thu Dec 26 10:47:57 2013
 """
 
 from  multiprocessing import Process
-from flask import Flask,request
+from flask import Flask, request, render_template
 app = Flask(__name__)
 
 @app.route("/")
 def hello():
     return "Hello World!"
+
+@app.route("/pag")
+def pag():
+    return render_template('file.html', values=range(10))
     
     
 @app.route("/agent1", methods=['GET', 'POST'])
@@ -21,15 +25,12 @@ def agent1():
     else:
         return "Message Received\n"
 
-def webservices():
-    app.run()
-    
 def mainloop():
     print 'MainLoop'
     
 
 if __name__ == "__main__":
-    p1=Process(target=webservices)
-    p2=Process(target=mainloop)
+    p1=Process(target=mainloop)
     p1.start()
-    p2.start()
+    app.run()
+

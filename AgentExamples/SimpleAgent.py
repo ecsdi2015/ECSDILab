@@ -34,14 +34,13 @@ port = 9001
 app = Flask(__name__)
 
 # Configuration constants and variables
-agn = Namespace("http;//www.agentes.org#")
+agn = Namespace("http://www.agentes.org#")
 mss_cnt = 0
 agentname = 'Agente1'
-agn = Namespace("http;//www.agentes.org#")
 servuri = agn.Agente1
-ra_address= 'http://polaris.lsi.upc.edu:9000/Register'
-ra_stop= 'http://polaris.lsi.upc.edu:9000/Stop'
-self_stop= 'http://polaris.lsi.upc.edu:9001/Stop'
+ra_address = "http://" + hostname + ":9000/Register"
+ra_stop = 'http://' + hostname + ':9000/Stop'
+self_stop = 'http://' + hostname + ':9001/Stop'
 stopall = False
 
 graph = Graph() # Global graph triplestore
@@ -118,8 +117,8 @@ def agentbehavior1():
 
     print gr.serialize(format='turtle')
 
-    r = requests.get(ra_stop)
-    print r.text
+    #r = requests.get(ra_stop)
+    #print r.text
 
     # Seldestruct
     requests.get(self_stop)

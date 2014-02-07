@@ -23,7 +23,7 @@ import socket
 hostname = socket.gethostname()
 port = 9001
 
-agn = Namespace("http;//www.agentes.org#")
+agn = Namespace("http://www.agentes.org#")
 gm = Graph()
 
 
