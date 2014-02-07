@@ -5,7 +5,7 @@ import csv
 ifile = open('DBAirlines.csv', "rb")
 airlines = csv.reader(ifile)
 
-ifile = open('DBAirports-pop.csv', "rb")
+ifile = open('DBAirports.csv', "rb")
 airports = csv.reader(ifile)
 
 ifile = open('routes-clean.csv', "rb")
@@ -20,7 +20,8 @@ for i in airlines:
 for i in airports:
     airport_s[i[2]] = (i[0], i[-2], i[-1])
 
-ofile  = open('routes-DBpedia.csv', "wb")
+ofile  = open('routes-DBpedia-all.csv', "wb")
+ofileair = open('airports-DBpedia-clean.csv', "wb")
 writer = csv.writer(ofile, delimiter=',', quotechar='"')
 for r in routes:
     if r[0] in airline_s and r[1] in airport_s and r[2] in airport_s:

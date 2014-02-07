@@ -31,7 +31,7 @@ SCHEMA = Namespace('http://schema.org/')
 
 # Tickets Ontology
 
-TIO = Namespace(' http://purl.org/tio/ns#')
+TIO = Namespace('http://purl.org/tio/ns#')
 
 # Good relations
 
@@ -40,5 +40,9 @@ GR = Namespace('http://purl.org/goodrelations/v1#')
 # DBPedia
 
 DBP = Namespace('http://dbpedia.org/ontology/')
+
+# Basic Geo (WGS84 lat/long) Vocabulary
+
+GEO = Namespace('http://www.w3.org/2003/01/geo/wgs84_pos#')
 
 

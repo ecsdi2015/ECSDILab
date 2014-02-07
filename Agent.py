@@ -40,10 +40,9 @@ import pprint
 #print f.read()
 
 from googleplaces import GooglePlaces, types, lang
+from APIKeys import  GOOGLEAPI_KEY
 
-YOUR_API_KEY = 'AIzaSyDAUWYjXBR-Tu8zhdKdRB7nKAa8pSHv988'
-
-google_places = GooglePlaces(YOUR_API_KEY)
+google_places = GooglePlaces(GOOGLEAPI_KEY)
 
 
 query_result = google_places.nearby_search(
