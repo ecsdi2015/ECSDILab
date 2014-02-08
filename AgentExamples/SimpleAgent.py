@@ -22,7 +22,8 @@ from rdflib.namespace import FOAF, RDF
 import requests
 
 from OntoNamespaces import ACL, OWLSProfile, OWLSService
-from AgentUtil import shutdown_server, send_message
+from AgentUtil import shutdown_server
+from ACLMessages import build_message
 
 
 
@@ -66,7 +67,7 @@ def register_message(gmess):
 
     gmess.add((servuri, FOAF.name, Literal(agentname)))
 
-    gr = send_message(gmess, perf= ACL.request, address=ra_address, sender= servuri)
+    gr = build_message(gmess, perf= ACL.request, address=ra_address, sender= servuri)
     mss_cnt += 1
 
     return gr

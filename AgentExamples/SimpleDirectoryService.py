@@ -25,7 +25,7 @@ from rdflib.namespace import FOAF
 
 from OntoNamespaces import ACL, DSO
 from AgentUtil import shutdown_server
-from ACLMessages import is_message, send_message, get_performative
+from ACLMessages import build_message
 
 # Configuration stuff
 hostname = socket.gethostname()
@@ -43,6 +43,8 @@ dsgraph.bind('dso', DSO)
 
 
 agn = Namespace("http://www.agentes.org#")
+dir_uri = agn.Directory
+
 app = Flask(__name__)
 mss_cnt = 0
 
@@ -58,50 +60,77 @@ def register():
 
     :return:
     """
-
-
-
-
     global dsgraph
     global mss_cnt
+
     #Extraemos el mensaje y creamos un grafo con el
     message= request.args['content']
     gm = Graph()
     gm.parse(data=message)
 
-    # Creamos un grafo para la respuesta
-    gr = Graph()
-    gr.bind('acl',ACL)
-
     print gm.serialize(format='turtle')
-
+    print '----------------'
     # Obtenemos la performativa
 
     # Comprobamos que sea un mensaje FIPA ACL
-    if not is_message(gm):
-        # Si no es respondemos que no hemos entendido el mensaje
-        gr.add((ACL['not-understood'], RDF.type, ACL.Speechact))
+    msg = gm.value(predicate=RDF.type,object= ACL.FipaAclMessage)
+    if msg is None:
+        # Si no es, respondemos que no hemos entendido el mensaje
+        gr = build_message(Graph(), ACL['not-understood'], sender= dir_uri, msgcnt=mss_cnt)
     else:
-        perf = get_performative(gm)
+        perf = gm.value(subject= msg,predicate= ACL.performative)
         if perf != ACL.request:
-           # Si no es respondemos que no hemos entendido el mensaje
-            gr.add((ACL['not-understood'], RDF.type, ACL.Speechact))
-
+            # Si no es un request, respondemos que no hemos entendido el mensaje
+            gr = build_message(Graph(), ACL['not-understood'], sender= dir_uri, msgcnt=mss_cnt)
         else:
-            # Si la hay extrameos el nombre del agente (FOAF.Name) y el URI agente
-            aresp= gm.subject_objects(FOAF.name)
-            a,n = aresp.next()
-            print a, n
+            #Extraemos el objeto del contenido que ha de ser una accion de la ontologia
+            # de registro
+            content = gm.value(subject=msg, predicate= ACL.content)
+            # Averiguamos el tipo de la accion
+            accion = gm.value(subject= content, predicate= RDF.type)
 
+            # Accion de registro
+            if accion == DSO.Register:
+                # Si la hay extraemos el nombre del agente (FOAF.Name), el URI del agente
+                # su direccion y su tipo
+                agn_add = gm.value(subject=content, predicate= DSO.Address)
+                agn_name = gm.value(subject=content, predicate= FOAF.Name)
+                agn_uri = gm.value(subject=content, predicate= DSO.Uri)
+                agn_type = gm.value(subject=content, predicate= DSO.AgentType)
 
-            ms = ACL['message{:{fill}4d}'.format(mss_cnt, fill='0')]
-            mss_cnt += 1
-            gr.add((ms, RDF.type, ACL.Speechact))
-            gr.add((ms, ACL.performative, ACL.confirm))
-            gm.add((agn.juan, FOAF.name, Literal('RegisterAgent')))
-            gm.add((ms, ACL.sender, agn.RegisterAgent))
+                # Añadimos la informacion en el grafo de registro vinculandola a la URI
+                # del agente y registrandola como tipo FOAF.Agent
+                dsgraph.add((agn_uri, RDF.type, FOAF.Agent))
+                dsgraph.add((agn_uri, FOAF.name, agn_name))
+                dsgraph.add((agn_uri, DSO.Address, agn_add))
+                dsgraph.add((agn_uri, DSO.AgentType, agn_type))
 
-        dsgraph += gm
+                # Generamos un mensaje de respuesta
+                gr = build_message(Graph(),ACL.confirm,sender=dir_uri,
+                                   receiver=agn_uri,msgcnt=mss_cnt)
+
+            if accion == DSO.Search:
+                # Search indica el tipo de agente
+                # Buscamos una coincidencia exacta
+                # Retornamos el primero de la lista de posibilidades
+                agn_type = gm.value(subject=content, predicate= DSO.AgentType)
+                agn_uri = gm.value(subject=content, predicate= DSO.Uri)
+                rsearch = dsgraph.triples((None, DSO.AgentType, agn_type))
+                if rsearch is not None:
+                    agn_uri = rsearch.next()[0]
+                    agn_add = dsgraph.value(subject= agn_uri, predicate= DSO.Address)
+                    gr = Graph()
+                    gr.bind('dso',DSO)
+                    rsp_obj = agn['Directory-response']
+                    gr.add((rsp_obj, DSO.Address, agn_add))
+                    gr = build_message(gr, ACL.inform, sender= dir_uri, msgcnt= mss_cnt,
+                                        receiver= agn_uri, content= rsp_obj)
+                else:
+                    # Si no encontramos nada retornamos un inform sin contenido
+                    gr = build_message(Graph(), ACL.inform, sender= dir_uri, msgcnt=mss_cnt)
+            else:
+                print 'NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO'
+    mss_cnt += 1
     return gr.serialize(format='xml')
 
 
@@ -148,7 +177,7 @@ if __name__ == '__main__':
     ab1.start()
 
     # Ponemos en marcha el servidor Flask
-    app.run(host= hostname, port= port)
+    app.run(host= hostname, port= port, debug= True)
 
     # Cerramos los procesos
     ab1.terminate()
