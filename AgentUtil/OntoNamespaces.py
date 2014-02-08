@@ -18,8 +18,6 @@ from rdflib import Graph, RDF, RDFS, OWL, Namespace, Literal
 # FIPA ACL Ontology
 ACL = Namespace("http://www.nuin.org/ontology/fipa/acl#")
 
-speechact = ACL.SpeechAct
-
 # OWL- S Ontology
 
 OWLSService = Namespace('http://www.daml.org/services/owl-s/1.2/Service.owl#')
@@ -45,4 +43,7 @@ DBP = Namespace('http://dbpedia.org/ontology/')
 
 GEO = Namespace('http://www.w3.org/2003/01/geo/wgs84_pos#')
 
+# Directory Service Ontology
+
+DSO = Namespace('http://www.semanticweb.org/directory-service-ontology#')
 

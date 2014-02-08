@@ -16,13 +16,13 @@ __author__ = 'bejar'
 from  multiprocessing import Process
 import socket
 
-from flask import Flask
+from flask import Flask, render_template, request, url_for
 from rdflib import Graph, Namespace, Literal, URIRef
 from rdflib.namespace import FOAF, RDF
 import requests
 
 from OntoNamespaces import ACL, OWLSProfile, OWLSService
-from AgentUtil import  shutdown_server, send_message
+from AgentUtil import shutdown_server, send_message
 
 
 
@@ -43,7 +43,7 @@ ra_stop = 'http://' + hostname + ':9000/Stop'
 self_stop = 'http://' + hostname + ':9001/Stop'
 stopall = False
 
-graph = Graph() # Global graph triplestore
+dsgraph = Graph() # Global dsgraph triplestore
 
 
 def register_message(gmess):
@@ -67,15 +67,23 @@ def register_message(gmess):
     gmess.add((servuri, FOAF.name, Literal(agentname)))
 
     gr = send_message(gmess, perf= ACL.request, address=ra_address, sender= servuri)
-    mss_cnt +=1
+    mss_cnt += 1
 
     return gr
 
 
-@app.route("/comm")
-def comm_behavior():
-    return 'Hello'
-
+@app.route("/iface", methods=['GET','POST'])
+def browser_iface():
+    """
+    Permite la comunicacion con el agente via un navegador
+    via un formulario
+    """
+    if request.method == 'GET':
+        return render_template('iface.html')
+    else:
+        user = request.form['username']
+        mess = request.form['message']
+        return render_template('riface.html', user= user, mess= mess)
 
 @app.route("/Stop")
 def stop():
@@ -89,13 +97,6 @@ def stop():
     return "Parando Servidor"
 
 
-def webservices():
-    """
-    Puesta en marcha del servicio web de Flask
-    para poder recibir mensajes
-
-    """
-
 
 def tidyup():
     """
@@ -103,25 +104,25 @@ def tidyup():
 
     """
     pass
-    #graph.close()
+    #dsgraph.close()
 
 
 def agentbehavior1():
     """
-    Comportamiento del agente
+    Un comportamiento del agente
 
     :return:
     """
-
     gr = register_message(Graph())
 
     print gr.serialize(format='turtle')
 
-    #r = requests.get(ra_stop)
-    #print r.text
+    # r = requests.get(ra_stop)
+    # print r.text
 
     # Seldestruct
     requests.get(self_stop)
+
 
 
 if __name__ == '__main__':
