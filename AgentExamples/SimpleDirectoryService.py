@@ -50,7 +50,6 @@ mss_cnt = 0
 
 cola1 = Queue() # Cola de comunicacion entre procesos
 
-
 @app.route("/Register")
 def register():
     """
@@ -69,7 +68,6 @@ def register():
     gm.parse(data=message)
 
     print gm.serialize(format='turtle')
-    print '----------------'
     # Obtenemos la performativa
 
     # Comprobamos que sea un mensaje FIPA ACL

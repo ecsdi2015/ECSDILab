@@ -9,9 +9,7 @@ Diversos namespaces utiles y algunas clases y propiedades de esos namespaces
 @author: bejar
 
 """
-
 __author__ = 'bejar'
-
 
 from rdflib import Graph, RDF, RDFS, OWL, Namespace, Literal
 

@@ -83,7 +83,7 @@ def register_message():
 
 def search_message():
     """
-    Envia un mensaje de registro al servicio de registro
+    Busca en el servicio de registro
 
 
     :param gmess:

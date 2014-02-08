@@ -19,10 +19,9 @@ from OntoNamespaces import ACL, DSO
 
 def build_message(gmess, perf, sender= None, receiver= None,  content= None, msgcnt= 0):
     """
-    Envia un mensaje como una performativa FIPA acl
+    Construye un mensaje como una performativa FIPA acl
     Asume que en el grafo que se recibe esta ya el contenido y esta ligado al
     URI en el parametro contenido
-    Para cuando hay que usar request para el envio
 
     :param gmess:
     :return:
@@ -42,7 +41,7 @@ def build_message(gmess, perf, sender= None, receiver= None,  content= None, msg
 
 def send_message(gmess, address):
     """
-
+    Envia un mensaje usando un request
     """
     msg = gmess.serialize(format='xml')
     r = requests.get(address, params={'content': msg})

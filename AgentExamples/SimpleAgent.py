@@ -42,7 +42,6 @@ servuri = agn.Agente1
 ra_address = "http://" + hostname + ":9000/Register"
 ra_stop = 'http://' + hostname + ':9000/Stop'
 self_stop = 'http://' + hostname + ':9001/Stop'
-stopall = False
 
 dsgraph = Graph() # Global dsgraph triplestore
 
