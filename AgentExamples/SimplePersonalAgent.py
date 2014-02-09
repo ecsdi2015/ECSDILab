@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-filename: ExampleAgent1
+filename: SimplePersonalAgent
 
-Agente que se registra, busca en el registro un agente y le envia un mensaje
+Ejemplo de agente que busca en el directorio y llamma al agente obtenido
 
-Created on 08/02/2014
+
+Created on 09/02/2014
 
 @author: javier
 """
 
 __author__ = 'javier'
-
 
 from  multiprocessing import Process
 import socket
@@ -26,33 +26,40 @@ from ACLMessages import build_message, send_message
 
 # Configuration stuff
 hostname = socket.gethostname()
-port = 9001
+port = 9002
 
 # Flask stuff
 app = Flask(__name__)
 
 # Configuration constants and variables
 agn = Namespace("http://www.agentes.org#")
-mss_cnt = 0
-agentname = 'Agente1'
-agn_uri = agn.Agente1
-agn_addr = 'http://' + hostname + ':9001/comm'
 
+# Contador de mensajes
+mss_cnt = 0
+
+# Datos del Agente
+agentname = 'AgentePersonal'
+agn_uri = agn.AgenteInfo
+agn_addr = 'http://' + hostname + ':'+str(port)+'/comm'
 self_stop = 'http://' + hostname + ':'+str(port)+'/Stop'
 
-
-# Register agent address
+# Directory agent address
 ra_address = "http://" + hostname + ":9000/Register"
 ra_stop = 'http://' + hostname + ':9000/Stop'
 ra_uri = agn.Directory
 
-dsgraph = Graph() # Global dsgraph triplestore
+# Global dsgraph triplestore
+dsgraph = Graph()
 
 
-def register_message():
+
+def directory_search_message(type):
     """
-    Envia un mensaje de registro al servicio de registro
+    Busca en el servicio de registro mandando un
+    mensaje de request con una accion Seach del servicio de directorio
 
+    Podria ser mas adecuado mandar un query-ref y una descripcion de registo
+    con variables
 
     :param gmess:
     :return:
@@ -63,41 +70,9 @@ def register_message():
 
     gmess.bind('foaf', FOAF)
     gmess.bind('dso', DSO)
-    reg_obj = agn['Agent1-Register']
-    gmess.add((reg_obj, RDF.type, DSO.Register))
-    gmess.add((reg_obj, DSO.Uri, agn_uri))
-    gmess.add((reg_obj, FOAF.Name, Literal(agentname)))
-    gmess.add((reg_obj, DSO.Address, Literal(agn_addr)))
-    gmess.add((reg_obj, DSO.AgentType, DSO.HotelsAgent))
-
-    gr = send_message(
-            build_message(gmess, perf= ACL.request,
-                      sender= agn_uri,
-                      receiver= ra_uri,
-                      content= reg_obj,
-                      msgcnt= mss_cnt),
-            ra_address)
-    mss_cnt += 1
-
-    return gr
-
-def search_message():
-    """
-    Busca en el servicio de registro
-
-
-    :param gmess:
-    :return:
-    """
-    global mss_cnt
-
-    gmess = Graph()
-
-    gmess.bind('foaf', FOAF)
-    gmess.bind('dso', DSO)
-    reg_obj = agn['Agent1-search']
+    reg_obj = agn[agentname+'-search']
     gmess.add((reg_obj, RDF.type, DSO.Search))
-    gmess.add((reg_obj, DSO.AgentType, DSO.HotelsAgent))
+    gmess.add((reg_obj, DSO.AgentType,type))
 
     gr = send_message(
             build_message(gmess, perf= ACL.request,
@@ -107,8 +82,34 @@ def search_message():
                       msgcnt= mss_cnt),
             ra_address)
     mss_cnt += 1
-
     return gr
+
+
+def infoagent_search_message(addr,ragn_uri):
+    """
+    Envia una accion a un agente de informacion
+    """
+    global mss_cnt
+
+    gmess = Graph()
+
+    # Supuesta ontologia de acciones de agentes de informacion
+    IAA = Namespace('IAActions')
+
+    gmess.bind('foaf', FOAF)
+    gmess.bind('iaa', IAA)
+    reg_obj = agn[agentname+'-info-search']
+    gmess.add((reg_obj, RDF.type, IAA.Search))
+
+    gr = send_message(
+            build_message(gmess, perf= ACL.request,
+                      sender= agn_uri,
+                      receiver= ragn_uri,
+                      msgcnt= mss_cnt),
+            addr)
+    mss_cnt += 1
+    return gr
+
 
 
 @app.route("/iface", methods=['GET','POST'])
@@ -157,12 +158,22 @@ def agentbehavior1():
 
     :return:
     """
-    # Registramos el agente
-    gr = register_message()
+
+    # Buscamos en el directorio
+    # un agente de hoteles
+    gr = directory_search_message( DSO.HotelsAgent)
     print gr.serialize(format='turtle')
 
-    gr = search_message()
-    print gr.serialize(format='turtle')
+    # Obtenemos la direccion del agente de la respuesta
+    # No hacemos ninguna comprobacion sobre si es un mensaje valido
+    msg = gr.value(predicate= RDF.type, object= ACL.FipaAclMessage)
+    content = gr.value(predicate= msg, predicate= ACL.content)
+    ragn_addr = gr.value(object= content, predicate= DSO.Address)
+    rgan_uri = gr.value(object= content, predicate= DSO.Uri)
+
+    # Ahora mandamos un objeto de tipo request mandando una accion de tipo Search
+    # que esta en una supuesta ontologia de acciones de agentes
+    infoagent_search_message(ragn_addr,ragn_uri)
 
 
     # r = requests.get(ra_stop)
@@ -182,3 +193,4 @@ if __name__ == '__main__':
     # Esperamos a que acaben los behaviors
     ab1.join()
     print 'The End'
+

@@ -54,8 +54,11 @@ cola1 = Queue() # Cola de comunicacion entre procesos
 def register():
     """
     Entry point del agente que recibe los mensajes de registro
-    La respuesta es enviada por el servidor,
-    No hay necesidad de enviar el mensaje a la direccion del agente
+    La respuesta es enviada al retornar la funcion
+    No hay necesidad de enviar el mensaje explicitamente
+
+    Asumimos una version simplificada del protocolo FIPA-request
+    en la que no enviamos el mesaje Agree cuando vamos a responder
 
     :return:
     """
@@ -68,7 +71,6 @@ def register():
     gm.parse(data=message)
 
     print gm.serialize(format='turtle')
-    # Obtenemos la performativa
 
     # Comprobamos que sea un mensaje FIPA ACL
     msg = gm.value(predicate=RDF.type,object= ACL.FipaAclMessage)
@@ -76,6 +78,7 @@ def register():
         # Si no es, respondemos que no hemos entendido el mensaje
         gr = build_message(Graph(), ACL['not-understood'], sender= dir_uri, msgcnt=mss_cnt)
     else:
+        # Obtenemos la performativa
         perf = gm.value(subject= msg,predicate= ACL.performative)
         if perf != ACL.request:
             # Si no es un request, respondemos que no hemos entendido el mensaje
@@ -91,10 +94,10 @@ def register():
             if accion == DSO.Register:
                 # Si la hay extraemos el nombre del agente (FOAF.Name), el URI del agente
                 # su direccion y su tipo
-                agn_add = gm.value(subject=content, predicate= DSO.Address)
-                agn_name = gm.value(subject=content, predicate= FOAF.Name)
-                agn_uri = gm.value(subject=content, predicate= DSO.Uri)
-                agn_type = gm.value(subject=content, predicate= DSO.AgentType)
+                agn_add = gm.value(subject=content, predicate=DSO.Address)
+                agn_name = gm.value(subject=content, predicate=FOAF.Name)
+                agn_uri = gm.value(subject=content, predicate=DSO.Uri)
+                agn_type = gm.value(subject=content, predicate=DSO.AgentType)
 
                 # Añadimos la informacion en el grafo de registro vinculandola a la URI
                 # del agente y registrandola como tipo FOAF.Agent
@@ -106,28 +109,35 @@ def register():
                 # Generamos un mensaje de respuesta
                 gr = build_message(Graph(),ACL.confirm,sender=dir_uri,
                                    receiver=agn_uri,msgcnt=mss_cnt)
-
+            # Accion de busqueda
+            # Asumimos que hay una accion de busqueda que puede tener
+            # diferentes parametros en funcion de si se busca un tipo de agente
+            # o un agente concreto por URI o nombre
+            # Podriamos resolver esto tambien con un query-ref y enviar un objeto de
+            # registro con variables y constantes
             if accion == DSO.Search:
-                # Search indica el tipo de agente
+                # Solo consideramos cuando Search indica el tipo de agente
                 # Buscamos una coincidencia exacta
                 # Retornamos el primero de la lista de posibilidades
-                agn_type = gm.value(subject=content, predicate= DSO.AgentType)
-                agn_uri = gm.value(subject=content, predicate= DSO.Uri)
+                agn_type = gm.value(subject=content, predicate=DSO.AgentType)
+                agn_uri = gm.value(subject=content, predicate=DSO.Uri)
                 rsearch = dsgraph.triples((None, DSO.AgentType, agn_type))
                 if rsearch is not None:
                     agn_uri = rsearch.next()[0]
-                    agn_add = dsgraph.value(subject= agn_uri, predicate= DSO.Address)
+                    agn_add = dsgraph.value(subject=agn_uri, predicate=DSO.Address)
                     gr = Graph()
                     gr.bind('dso',DSO)
                     rsp_obj = agn['Directory-response']
                     gr.add((rsp_obj, DSO.Address, agn_add))
-                    gr = build_message(gr, ACL.inform, sender= dir_uri, msgcnt= mss_cnt,
-                                        receiver= agn_uri, content= rsp_obj)
+                    gr.add((rsp_obj, DSO.Uri, agn_uri))
+                    gr = build_message(gr, ACL.inform, sender= dir_uri, msgcnt=mss_cnt,
+                                       receiver=agn_uri, content=rsp_obj)
                 else:
                     # Si no encontramos nada retornamos un inform sin contenido
-                    gr = build_message(Graph(), ACL.inform, sender= dir_uri, msgcnt=mss_cnt)
+                    gr = build_message(Graph(), ACL.inform, sender=dir_uri, msgcnt=mss_cnt)
+            # No habia ninguna accion en el mensaje
             else:
-                print 'NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO'
+                gr = build_message(Graph(), ACL['not-understood'], sender= dir_uri, msgcnt=mss_cnt)
     mss_cnt += 1
     return gr.serialize(format='xml')
 
@@ -155,19 +165,23 @@ def stop():
     return "Parando Servidor"
 
 def tidyup():
-    pass
+    cola1.put(0)
     #dsgraph.close()
 
 def agentbehavior1(cola):
     """
     Behaviour que simplemente espera mensajes de una cola y los imprime
+    hasta que llega un 0 a la cola
     """
     fin = False
     while not fin:
         while cola.empty():
             pass
         v = cola.get()
-        print v
+        if v == 0:
+            fin = True
+        else:
+            print v
 
 if __name__ == '__main__':
     # Ponemos en marcha los behaviours como procesos
