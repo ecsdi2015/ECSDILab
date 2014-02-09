@@ -169,7 +169,7 @@ def agentbehavior1():
     msg = gr.value(predicate= RDF.type, object= ACL.FipaAclMessage)
     content = gr.value(predicate= msg, predicate= ACL.content)
     ragn_addr = gr.value(object= content, predicate= DSO.Address)
-    rgan_uri = gr.value(object= content, predicate= DSO.Uri)
+    ragn_uri = gr.value(object= content, predicate= DSO.Uri)
 
     # Ahora mandamos un objeto de tipo request mandando una accion de tipo Search
     # que esta en una supuesta ontologia de acciones de agentes
