@@ -125,6 +125,7 @@ def browser_iface():
         mess = request.form['message']
         return render_template('riface.html', user= user, mess= mess)
 
+
 @app.route("/Stop")
 def stop():
     """
@@ -174,7 +175,6 @@ def agentbehavior1():
     # Ahora mandamos un objeto de tipo request mandando una accion de tipo Search
     # que esta en una supuesta ontologia de acciones de agentes
     infoagent_search_message(ragn_addr,ragn_uri)
-
 
     # r = requests.get(ra_stop)
     # print r.text

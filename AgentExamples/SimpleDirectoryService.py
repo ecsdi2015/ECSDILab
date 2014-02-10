@@ -25,7 +25,7 @@ from rdflib.namespace import FOAF
 
 from OntoNamespaces import ACL, DSO
 from AgentUtil import shutdown_server
-from ACLMessages import build_message
+from ACLMessages import build_message, get_message_properties
 
 # Configuration stuff
 hostname = socket.gethostname()
@@ -71,22 +71,22 @@ def register():
     gm.parse(data=message)
 
     print gm.serialize(format='turtle')
+    msgdic = get_message_properties(gm)
 
     # Comprobamos que sea un mensaje FIPA ACL
-    msg = gm.value(predicate=RDF.type,object= ACL.FipaAclMessage)
-    if msg is None:
+    # Si no lo es el mensaje es vacio
+    if not msgdic:
         # Si no es, respondemos que no hemos entendido el mensaje
         gr = build_message(Graph(), ACL['not-understood'], sender= dir_uri, msgcnt=mss_cnt)
     else:
         # Obtenemos la performativa
-        perf = gm.value(subject= msg,predicate= ACL.performative)
-        if perf != ACL.request:
+        if msgdic['performative'] != ACL.request:
             # Si no es un request, respondemos que no hemos entendido el mensaje
             gr = build_message(Graph(), ACL['not-understood'], sender= dir_uri, msgcnt=mss_cnt)
         else:
             #Extraemos el objeto del contenido que ha de ser una accion de la ontologia
             # de registro
-            content = gm.value(subject=msg, predicate= ACL.content)
+            content = msgdic['content']
             # Averiguamos el tipo de la accion
             accion = gm.value(subject= content, predicate= RDF.type)
 

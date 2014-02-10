@@ -15,14 +15,13 @@ from OntoNamespaces import TIO, GEO
 import time
 import gzip
 
-
 g = Graph()
-print time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())
+print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
 ontofile = gzip.open('../FlightData/FlightRoutes.ttl.gz')
 g.parse(ontofile, format='turtle')
 
-print time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())
+print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 qres = g.query(
     """
     prefix tio:<http://purl.org/tio/ns#>
@@ -43,7 +42,7 @@ qres = g.query(
     """,
    initNs= dict(tio=TIO))
 
-print time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())
+print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
 for r in qres:
     ap = r['f']
@@ -62,7 +61,7 @@ airquery = """
 print airquery
 
 qres = g.query(airquery, initNs=dict(tio=TIO))
-print time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())
+print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
 for row in qres.result:
     print row

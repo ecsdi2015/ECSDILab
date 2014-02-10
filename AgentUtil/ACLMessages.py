@@ -8,7 +8,6 @@ Created on 08/02/2014
 
 @author: javier
 """
-
 __author__ = 'javier'
 
 from rdflib import Graph
@@ -39,6 +38,7 @@ def build_message(gmess, perf, sender= None, receiver= None,  content= None, msg
         gmess.add((ms, ACL.content, content))
     return gmess
 
+
 def send_message(gmess, address):
     """
     Envia un mensaje usando un request
@@ -52,3 +52,23 @@ def send_message(gmess, address):
 
     return gr
 
+
+def get_message_properties(msg):
+    """
+    Extrae las propiedades de un mensaje ACL como un diccionario.
+    Dl contenido solo saca el primer objeto al que apunta la propiedad
+
+    Los elementos que no estan no aparecen en el diccionario
+    """
+    props = {'performative' : ACL.performative, 'sender': ACL.sender,
+             'receiver': ACL.receiver, 'ontology': ACL.ontology,
+             'conversation-id': ACL['conversation-id'],
+             'in-reply-to': ACL['in-reply-to', 'content': ACL.content]}
+    msgdic = {} # Diccionario donde se guardan los elementos del mensaje
+    valid = msg.value(predicate=RDF.type,object= ACL.FipaAclMessage)
+    if valid is not None:
+        for key in props:
+            val = msg.value(subject= msg,predicate= props[key])
+            if val is not None:
+                msgdic = {key: val}
+    return msgdic

@@ -27,7 +27,7 @@ FIPAONT.parse("Ontologias/fipa-acl.owl")
 sa = ACL.SpeechAct
 agn = Namespace("http://www.agentes.org#")
 
-@app.route("/agente")
+@app.route("/comm")
 def agent1():
     message= request.args['content']
     gm = Graph()

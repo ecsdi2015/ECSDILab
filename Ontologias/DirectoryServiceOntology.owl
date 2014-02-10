@@ -208,6 +208,11 @@
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rfds:comment"/>
+        <IRI>RegisterResult</IRI>
+        <Literal xml:lang="es" datatypeIRI="&rdf;PlainLiteral">Objeto de resultado</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rfds:comment"/>
         <IRI>Search</IRI>
         <Literal xml:lang="es" datatypeIRI="&rdf;PlainLiteral">Busqueda en el registro</Literal>
     </AnnotationAssertion>
