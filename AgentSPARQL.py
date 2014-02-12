@@ -5,7 +5,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from SPARQLPoints import OPENLINK, DBPEDIA
 
 
-sparql = SPARQLWrapper(DBPEDIA)
+sparql = SPARQLWrapper('http://127.0.0.1:3030/data/query')
 
 
 # sparql.setQuery("""
@@ -32,31 +32,38 @@ sparql = SPARQLWrapper(DBPEDIA)
 #          }
 #""")
 
+# sparql.setQuery("""
+#  Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+#  Prefix ogc: <http://www.opengis.net/ont/geosparql#>
+#  Prefix geom: <http://geovocab.org/geometry#>
+#  Prefix lgdo: <http://linkedgeodata.org/ontology/>
+#  Prefix dbp: <http://dbpedia.org/ontology/>
+#  Prefix dbpp: <http://dbpedia.org/property/>
+#  prefix geo:<http://www.w3.org/2003/01/geo/wgs84_pos#>
+#
+# Select *
+#    WHERE
+#   {
+#
+#     <http://dbpedia.org/resource/London> geo:lat ?lat .
+#     <http://dbpedia.org/resource/London> geo:long ?lon .
+#   }
+#  """)
+
 sparql.setQuery("""
- Prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
- Prefix ogc: <http://www.opengis.net/ont/geosparql#>
- Prefix geom: <http://geovocab.org/geometry#>
- Prefix lgdo: <http://linkedgeodata.org/ontology/>
- Prefix dbp: <http://dbpedia.org/ontology/>
- Prefix dbpp: <http://dbpedia.org/property/>
- prefix geo:<http://www.w3.org/2003/01/geo/wgs84_pos#>
-
-Select *
-   WHERE
-  {
-
-    <http://dbpedia.org/resource/London> geo:lat ?lat .
-    <http://dbpedia.org/resource/London> geo:long ?lon .
-  }
- """)
-
+   Select *
+   WHERE { ?a ?b ?c.}
+   LIMIT 10
+   """)
 
 sparql.setReturnFormat(JSON)
-results = sparql.query()#.convert()
 
-#print results
+results = sparql.query().convert()
 
-results.print_results()
+for r in  results['results']['bindings']:
+    print r
+
+#results.print_results()
 
 #for result in results["results"]["bindings"]:
 #    try:
