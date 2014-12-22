@@ -168,7 +168,7 @@ def agentbehavior1():
     # Obtenemos la direccion del agente de la respuesta
     # No hacemos ninguna comprobacion sobre si es un mensaje valido
     msg = gr.value(predicate= RDF.type, object= ACL.FipaAclMessage)
-    content = gr.value(predicate= msg, predicate= ACL.content)
+    content = gr.value(object= msg, predicate= ACL.content)
     ragn_addr = gr.value(object= content, predicate= DSO.Address)
     ragn_uri = gr.value(object= content, predicate= DSO.Uri)
 

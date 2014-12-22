@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-15 -*-
 __author__ = 'javier'
 
 from googleplaces import GooglePlaces, types, lang
@@ -7,11 +8,16 @@ import pprint
 
 google_places = GooglePlaces(GOOGLEAPI_KEY)
 
-
+#print google_places.geocode_location('Barcelona, España')
 query_result = google_places.nearby_search(
-        location='Barcelona, EspaÃ±a',keyword='metro',
+        location=u'Barcelona, España', keyword='metro',
         radius=300, types=['bus_station'])
 
+print query_result
+# query_result = google_places.nearby_search(
+#         location='Barcelona, España', keyword='metro',
+#         radius=300, types=['bus_station'])
+#
 if query_result.has_attributions:
     print query_result.html_attributions
 
