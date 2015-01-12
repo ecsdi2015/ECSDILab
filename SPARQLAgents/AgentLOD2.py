@@ -16,14 +16,15 @@ sparql.setQuery("""
   Prefix dbp: <http://dbpedia.org/ontology/>
   Prefix sch: <http://schema.org/>
 
-SELECT DISTINCT ?label   WHERE
+SELECT DISTINCT ?label, ?location, ?sourcegeo   WHERE
   {
     <http://dbpedia.org/resource/Barcelona> geo:geometry ?sourcegeo .
     ?resource geo:geometry ?location ; rdfs:label ?label; rdf:type sch:Museum .
-    FILTER ( bif:st_intersects ( ?location, ?sourcegeo, 20 ) ) .
+    FILTER ( bif:st_intersects ( ?location, ?sourcegeo, 40 ) ) .
     FILTER ( lang ( ?label ) = "es" )
   }
 LIMIT 200  """)
+
 sparql.setReturnFormat(JSON)
 results = sparql.query()
 print results.print_results()

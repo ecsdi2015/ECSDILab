@@ -33,10 +33,10 @@ qres = g.query(
         ?f rdf:type dbp:Airport .
         ?f geo:lat ?lat .
         ?f geo:long ?lon .
-        Filter ( ?lat < "52.0"^^xsd:float &&
-                 ?lat > "51.0"^^xsd:float &&
-                 ?lon < "0.5"^^xsd:float &&
-                 ?lon > "-0.5"^^xsd:float)
+        Filter ( ?lat < "41.7"^^xsd:float &&
+                 ?lat > "41.0"^^xsd:float &&
+                 ?lon < "2.3"^^xsd:float &&
+                 ?lon > "2.0"^^xsd:float)
         }
     LIMIT 30
     """,

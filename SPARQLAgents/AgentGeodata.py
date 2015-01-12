@@ -15,7 +15,6 @@ lgdo:Amenity
 """
 
 from SPARQLWrapper import SPARQLWrapper, JSON
-
 from SPARQLPoints import GEODATA
 
 
