@@ -17,6 +17,6 @@ print len(v['venues'])
 
 for vn in v['venues']:
     print vn['name'],
-    if len(vn['categories'])!=0:
+    if len(vn['categories']) != 0:
         print vn['categories'][0]['name']
 
