@@ -23,6 +23,7 @@ import requests
 from OntoNamespaces import ACL, DSO
 from AgentUtil import shutdown_server
 from ACLMessages import build_message, send_message
+from Agent import Agent
 
 # Configuration stuff
 hostname = socket.gethostname()
@@ -38,15 +39,18 @@ agn = Namespace("http://www.agentes.org#")
 mss_cnt = 0
 
 # Datos del Agente
-agentname = 'AgentePersonal'
-agn_uri = agn.AgenteInfo
-agn_addr = 'http://' + hostname + ':'+str(port)+'/comm'
-self_stop = 'http://' + hostname + ':'+str(port)+'/Stop'
+AgentePersonal = Agent('AgentePersonal',
+                       agn.AgentePersonal,
+                       'http://%s:%d/comm' % (hostname, port),
+                       'http://%s:%d/Stop' % (hostname, port))
+
+
 
 # Directory agent address
-ra_address = "http://" + hostname + ":9000/Register"
-ra_stop = 'http://' + hostname + ':9000/Stop'
-ra_uri = agn.Directory
+DirectoryAgent = Agent('DirectoryAgent',
+                       agn.Directory,
+                       'http://%s:9000/Register' % hostname,
+                       'http://%s:9000/Stop' % hostname)
 
 # Global dsgraph triplestore
 dsgraph = Graph()
@@ -70,22 +74,21 @@ def directory_search_message(type):
 
     gmess.bind('foaf', FOAF)
     gmess.bind('dso', DSO)
-    reg_obj = agn[agentname+'-search']
+    reg_obj = agn[AgentePersonal.name+'-search']
     gmess.add((reg_obj, RDF.type, DSO.Search))
     gmess.add((reg_obj, DSO.AgentType,type))
 
-    gr = send_message(
-            build_message(gmess, perf= ACL.request,
-                      sender= agn_uri,
-                      receiver= ra_uri,
-                      content= reg_obj,
-                      msgcnt= mss_cnt),
-            ra_address)
+    msg = build_message(gmess, perf= ACL.request,
+                      sender=AgentePersonal.uri,
+                      receiver=DirectoryAgent.uri,
+                      content=reg_obj,
+                      msgcnt=mss_cnt)
+    gr = send_message(msg,DirectoryAgent.address)
     mss_cnt += 1
     return gr
 
 
-def infoagent_search_message(addr,ragn_uri):
+def infoagent_search_message(addr, ragn_uri):
     """
     Envia una accion a un agente de informacion
     """
@@ -98,15 +101,14 @@ def infoagent_search_message(addr,ragn_uri):
 
     gmess.bind('foaf', FOAF)
     gmess.bind('iaa', IAA)
-    reg_obj = agn[agentname+'-info-search']
+    reg_obj = agn[AgentePersonal.name+'-info-search']
     gmess.add((reg_obj, RDF.type, IAA.Search))
 
-    gr = send_message(
-            build_message(gmess, perf= ACL.request,
-                      sender= agn_uri,
-                      receiver= ragn_uri,
-                      msgcnt= mss_cnt),
-            addr)
+    msg = build_message(gmess, perf=ACL.request,
+                      sender=AgentePersonal.uri,
+                      receiver=ragn_uri,
+                      msgcnt=mss_cnt)
+    gr = send_message(msg, addr)
     mss_cnt += 1
     return gr
 
@@ -123,7 +125,7 @@ def browser_iface():
     else:
         user = request.form['username']
         mess = request.form['message']
-        return render_template('riface.html', user= user, mess= mess)
+        return render_template('riface.html', user=user, mess=mess)
 
 
 @app.route("/Stop")
@@ -162,25 +164,28 @@ def agentbehavior1():
 
     # Buscamos en el directorio
     # un agente de hoteles
-    gr = directory_search_message( DSO.HotelsAgent)
-    print gr.serialize(format='turtle')
+    gr = directory_search_message(DSO.HotelsAgent)
+    #print gr.serialize(format='turtle')
+
 
     # Obtenemos la direccion del agente de la respuesta
     # No hacemos ninguna comprobacion sobre si es un mensaje valido
-    msg = gr.value(predicate= RDF.type, object= ACL.FipaAclMessage)
-    content = gr.value(object= msg, predicate= ACL.content)
-    ragn_addr = gr.value(object= content, predicate= DSO.Address)
-    ragn_uri = gr.value(object= content, predicate= DSO.Uri)
+    msg = gr.value(predicate=RDF.type, object=ACL.FipaAclMessage)
+    content = gr.value(subject=msg, predicate=ACL.content)
+    ragn_addr = gr.value(subject=content, predicate=DSO.Address)
+    ragn_uri = gr.value(subject=content, predicate=DSO.Uri)
+
+    #print msg, content, ragn_addr, ragn_uri
 
     # Ahora mandamos un objeto de tipo request mandando una accion de tipo Search
     # que esta en una supuesta ontologia de acciones de agentes
-    infoagent_search_message(ragn_addr,ragn_uri)
+    infoagent_search_message(ragn_addr, ragn_uri)
 
     # r = requests.get(ra_stop)
     # print r.text
 
     # Selfdestruct
-    requests.get(self_stop)
+    requests.get(AgentePersonal.stop)
 
 if __name__ == '__main__':
     # Ponemos en marcha los behaviors

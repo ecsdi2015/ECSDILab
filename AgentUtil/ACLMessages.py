@@ -16,7 +16,7 @@ from rdflib.namespace import RDF
 from OntoNamespaces import ACL, DSO
 
 
-def build_message(gmess, perf, sender= None, receiver= None,  content= None, msgcnt= 0):
+def build_message(gmess, perf, sender=None, receiver=None,  content=None, msgcnt= 0):
     """
     Construye un mensaje como una performativa FIPA acl
     Asume que en el grafo que se recibe esta ya el contenido y esta ligado al
@@ -56,19 +56,25 @@ def send_message(gmess, address):
 def get_message_properties(msg):
     """
     Extrae las propiedades de un mensaje ACL como un diccionario.
-    Dl contenido solo saca el primer objeto al que apunta la propiedad
+    Del contenido solo saca el primer objeto al que apunta la propiedad
 
-    Los elementos que no estan no aparecen en el diccionario
+    Los elementos que no estan, no aparecen en el diccionario
     """
     props = {'performative' : ACL.performative, 'sender': ACL.sender,
              'receiver': ACL.receiver, 'ontology': ACL.ontology,
              'conversation-id': ACL['conversation-id'],
-             'in-reply-to': ACL['in-reply-to', 'content': ACL.content]}
+             'in-reply-to': ACL['in-reply-to'], 'content': ACL.content}
     msgdic = {} # Diccionario donde se guardan los elementos del mensaje
-    valid = msg.value(predicate=RDF.type,object= ACL.FipaAclMessage)
+    # Extraemos la parte del FipaAclMessage del mensaje
+    valid = msg.value(predicate=RDF.type, object=ACL.FipaAclMessage)
+
+    print valid
+
+    # Extraemos las propiedades del mensaje
     if valid is not None:
         for key in props:
-            val = msg.value(subject= msg,predicate= props[key])
+            val = msg.value(subject=valid, predicate=props[key])
+            print key, ':', val
             if val is not None:
-                msgdic = {key: val}
+                msgdic[key] = val
     return msgdic

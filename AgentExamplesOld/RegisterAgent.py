@@ -87,7 +87,7 @@ def info():
     global dsgraph
     global mss_cnt
 
-    return render_template('info.html',nmess= mss_cnt, graph= dsgraph.serialize(format='turtle'))
+    return render_template('info.html', nmess= mss_cnt, graph= dsgraph.serialize(format='turtle'))
 
 
 @app.route("/Stop")
@@ -118,8 +118,9 @@ if __name__ == '__main__':
     ab1=Process(target=agentbehavior1,args=(cola1,))
     ab1.start()
 
+    print hostname
     # Ponemos en marcha el servidor Flask
-    app.run(host= hostname, port= port)
+    app.run(host= hostname, port=port)
 
     # Cerramos los procesos
     ab1.terminate()
