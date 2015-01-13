@@ -22,10 +22,15 @@ def build_message(gmess, perf, sender=None, receiver=None,  content=None, msgcnt
     Asume que en el grafo que se recibe esta ya el contenido y esta ligado al
     URI en el parametro contenido
 
-    :param gmess:
+    :param gmess: grafo RDF sobre el que se deja el mensaje
+    :param perf: performativa del mensaje
+    :param sender: URI del sender
+    :param receiver: URI del receiver
+    :param content: URI que liga el contenido del mensaje
+    :param msgcnt: numero de mensaje
     :return:
     """
-    # Añade los elementos del speechact al grafo del mensaje
+    # Añade los elementos del speech act al grafo del mensaje
     mssid = 'message-'+str(sender.__hash__()) + '-{:{fill}4d}'.format(msgcnt, fill='0')
     ms = ACL[mssid]
     gmess.bind('acl', ACL)
@@ -41,7 +46,8 @@ def build_message(gmess, perf, sender=None, receiver=None,  content=None, msgcnt
 
 def send_message(gmess, address):
     """
-    Envia un mensaje usando un request
+    Envia un mensaje usando un request y retorna la respuesta como
+    un grafo RDF
     """
     msg = gmess.serialize(format='xml')
     r = requests.get(address, params={'content': msg})
@@ -65,16 +71,14 @@ def get_message_properties(msg):
              'conversation-id': ACL['conversation-id'],
              'in-reply-to': ACL['in-reply-to'], 'content': ACL.content}
     msgdic = {} # Diccionario donde se guardan los elementos del mensaje
+
     # Extraemos la parte del FipaAclMessage del mensaje
     valid = msg.value(predicate=RDF.type, object=ACL.FipaAclMessage)
-
-    print valid
 
     # Extraemos las propiedades del mensaje
     if valid is not None:
         for key in props:
             val = msg.value(subject=valid, predicate=props[key])
-            print key, ':', val
             if val is not None:
                 msgdic[key] = val
     return msgdic

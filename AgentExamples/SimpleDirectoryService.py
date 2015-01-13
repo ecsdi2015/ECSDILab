@@ -26,6 +26,7 @@ from rdflib.namespace import FOAF
 
 from OntoNamespaces import ACL, DSO
 from AgentUtil import shutdown_server
+from Agent import Agent
 from ACLMessages import build_message, get_message_properties
 
 # Configuration stuff
@@ -44,8 +45,11 @@ dsgraph.bind('dso', DSO)
 
 
 agn = Namespace("http://www.agentes.org#")
-dir_uri = agn.Directory
-
+#dir_uri = agn.Directory
+DirectoryAgent = Agent('DirectoryAgent',
+                       agn.Directory,
+                       'http://%s:%d/Register' % (hostname, port),
+                       'http://%s:%d/Stop' % (hostname, port))
 app = Flask(__name__)
 mss_cnt = 0
 
@@ -79,8 +83,11 @@ def register():
         dsgraph.add((agn_uri, DSO.AgentType, agn_type))
 
         # Generamos un mensaje de respuesta
-        return build_message(Graph(),ACL.confirm, sender=dir_uri,
-                           receiver=agn_uri, msgcnt=mss_cnt)
+        return build_message(Graph(),
+                             ACL.confirm,
+                             sender=DirectoryAgent.uri,
+                             receiver=agn_uri,
+                             msgcnt=mss_cnt)
 
     def process_search():
         # Asumimos que hay una accion de busqueda que puede tener
@@ -93,7 +100,6 @@ def register():
         # Buscamos una coincidencia exacta
         # Retornamos el primero de la lista de posibilidades
         agn_type = gm.value(subject=content, predicate=DSO.AgentType)
-        agn_uri = gm.value(subject=content, predicate=DSO.Uri)
         rsearch = dsgraph.triples((None, DSO.AgentType, agn_type))
         if rsearch is not None:
             agn_uri = rsearch.next()[0]
@@ -103,11 +109,18 @@ def register():
             rsp_obj = agn['Directory-response']
             gr.add((rsp_obj, DSO.Address, agn_add))
             gr.add((rsp_obj, DSO.Uri, agn_uri))
-            return build_message(gr, ACL.inform, sender= dir_uri, msgcnt=mss_cnt,
-                               receiver=agn_uri, content=rsp_obj)
+            return build_message(gr,
+                                 ACL.inform,
+                                 sender=DirectoryAgent.uri,
+                                 msgcnt=mss_cnt,
+                                 receiver=agn_uri,
+                                 content=rsp_obj)
         else:
             # Si no encontramos nada retornamos un inform sin contenido
-            return build_message(Graph(), ACL.inform, sender=dir_uri, msgcnt=mss_cnt)
+            return build_message(Graph(),
+                                 ACL.inform,
+                                 sender=DirectoryAgent.uri,
+                                 msgcnt=mss_cnt)
 
 
     global dsgraph
@@ -121,15 +134,20 @@ def register():
     msgdic = get_message_properties(gm)
 
     # Comprobamos que sea un mensaje FIPA ACL
-    # Si no lo es el mensaje es vacio
     if not msgdic:
         # Si no es, respondemos que no hemos entendido el mensaje
-        gr = build_message(Graph(), ACL['not-understood'], sender= dir_uri, msgcnt=mss_cnt)
+        gr = build_message(Graph(),
+                           ACL['not-understood'],
+                           sender=DirectoryAgent.uri,
+                           msgcnt=mss_cnt)
     else:
         # Obtenemos la performativa
         if msgdic['performative'] != ACL.request:
             # Si no es un request, respondemos que no hemos entendido el mensaje
-            gr = build_message(Graph(), ACL['not-understood'], sender= dir_uri, msgcnt=mss_cnt)
+            gr = build_message(Graph(),
+                               ACL['not-understood'],
+                               sender=DirectoryAgent.uri,
+                               msgcnt=mss_cnt)
         else:
             #Extraemos el objeto del contenido que ha de ser una accion de la ontologia
             # de registro
@@ -145,12 +163,15 @@ def register():
                 gr = process_search()
             # No habia ninguna accion en el mensaje
             else:
-                gr = build_message(Graph(), ACL['not-understood'], sender= dir_uri, msgcnt=mss_cnt)
+                gr = build_message(Graph(),
+                                   ACL['not-understood'],
+                                   sender=DirectoryAgent.uri,
+                                   msgcnt=mss_cnt)
     mss_cnt += 1
     return gr.serialize(format='xml')
 
 
-@app.route('/info')
+@app.route('/Info')
 def info():
     """
     Entrada que da informacion sobre el agente a traves de una pagina web
@@ -166,17 +187,19 @@ def stop():
     """
     Entrada que para el agente
     """
-    global cola1
-
-    print 'Parando Servidor'
-    cola1.put(0)
-    #dsgraph.close()
-
+    tidyup()
     shutdown_server()
     return "Parando Servidor"
 
 
 
+def tidyup():
+    """
+    Acciones previas a parar el agente
+
+    """
+    global cola1
+    cola1.put(0)
 
 def agentbehavior1(cola):
     """
@@ -202,8 +225,6 @@ if __name__ == '__main__':
     # Ponemos en marcha el servidor Flask
     app.run(host=hostname, port=port, debug=True)
 
-    # Cerramos los procesos
-    #ab1.terminate()
-
+    ab1.join()
     print 'The End'
 

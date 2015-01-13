@@ -129,10 +129,8 @@ def comunicacion():
     gm = Graph()
     gm.parse(data=message)
 
-    print gm.serialize(format='turtle')
     msgdic = get_message_properties(gm)
 
-    print msgdic
     # Comprobamos que sea un mensaje FIPA ACL
     if msgdic is None:
         # Si no es, respondemos que no hemos entendido el mensaje
@@ -160,7 +158,6 @@ def comunicacion():
                                sender=InfoAgent.uri,
                                msgcnt=mss_cnt,
                                receiver=msgdic['sender'],)
-    print gr.serialize(format='turtle')
     mss_cnt += 1
     return gr.serialize(format='xml')
 
@@ -182,7 +179,6 @@ def agentbehavior1(cola):
     """
     # Registramos el agente
     gr = register_message()
-    print gr.serialize(format='turtle')
 
     # Escuchando la cola hasta que llegue un 0
     fin = False
@@ -196,7 +192,7 @@ def agentbehavior1(cola):
             print v
 
     # Selfdestruct
-    requests.get(InfoAgent.stop)
+    #requests.get(InfoAgent.stop)
 
 if __name__ == '__main__':
     # Ponemos en marcha los behaviors

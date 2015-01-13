@@ -165,8 +165,6 @@ def agentbehavior1():
     # Buscamos en el directorio
     # un agente de hoteles
     gr = directory_search_message(DSO.HotelsAgent)
-    #print gr.serialize(format='turtle')
-
 
     # Obtenemos la direccion del agente de la respuesta
     # No hacemos ninguna comprobacion sobre si es un mensaje valido
@@ -174,8 +172,6 @@ def agentbehavior1():
     content = gr.value(subject=msg, predicate=ACL.content)
     ragn_addr = gr.value(subject=content, predicate=DSO.Address)
     ragn_uri = gr.value(subject=content, predicate=DSO.Uri)
-
-    #print msg, content, ragn_addr, ragn_uri
 
     # Ahora mandamos un objeto de tipo request mandando una accion de tipo Search
     # que esta en una supuesta ontologia de acciones de agentes
