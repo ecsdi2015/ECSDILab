@@ -14,13 +14,11 @@ __author__ = 'javier'
 
 import requests
 from  multiprocessing import Process, Queue
-from rdflib import Namespace, URIRef, Graph, ConjunctiveGraph, Literal
-from rdflib.namespace import FOAF, RDF
-from OntoNamespaces import ACL
-from flask import Flask, render_template, request, url_for
+from rdflib import Namespace,  Graph
+from flask import Flask
 import socket
 from AgentUtil import shutdown_server
-
+from Agent import Agent
 
 # Configuration stuff
 hostname = socket.gethostname()
@@ -32,14 +30,17 @@ agn = Namespace("http://www.agentes.org#")
 mss_cnt = 0
 
 # Datos del Agente
-agentname = 'AgenteAsk'
-agn_uri = agn.AgenteAsk
-agn_addr = 'http://' + hostname + ':'+str(port)+'/comm'
-self_stop = 'http://' + hostname + ':'+str(port)+'/Stop'
+
+AgentePersonal = Agent('AgenteSimple',
+                       agn.AgenteSimple,
+                       'http://%s:%d/comm' % (hostname, port),
+                       'http://%s:%d/Stop' % (hostname, port))
 
 # Directory agent address
-rq_address = "http://" + hostname + ":9011/comm"
-rq_uri = agn.AgentRespond
+DirectoryAgent = Agent('DirectoryAgent',
+                       agn.Directory,
+                       'http://%s:9000/Register' % hostname,
+                       'http://%s:9000/Stop' % hostname)
 
 
 # Global triplestore graph

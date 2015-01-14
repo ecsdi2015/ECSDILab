@@ -7,7 +7,7 @@ Created on Thu Dec 26 10:47:57 2013
 
 
 import rdflib
-import rdfextras
+#import rdfextras
 from rdflib import OWL
 import pprint
 from rdflib import plugin
