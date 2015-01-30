@@ -13,8 +13,7 @@ Hace consultas al fichero FlightRoutes.ttl.gz
 __author__ = 'bejar'
 
 from rdflib import Graph
-from OntoNamespaces import TIO, GEO
-import time
+from OntoNamespaces import TIO
 import gzip
 
 g = Graph()
