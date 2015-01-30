@@ -45,7 +45,6 @@ dsgraph.bind('dso', DSO)
 
 
 agn = Namespace("http://www.agentes.org#")
-#dir_uri = agn.Directory
 DirectoryAgent = Agent('DirectoryAgent',
                        agn.Directory,
                        'http://%s:%d/Register' % (hostname, port),

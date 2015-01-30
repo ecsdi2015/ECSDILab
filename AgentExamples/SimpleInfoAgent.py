@@ -35,8 +35,6 @@ agn = Namespace("http://www.agentes.org#")
 mss_cnt = 0
 
 # Datos del Agente
-
-
 InfoAgent = Agent('AgenteInfo1',
                   agn.AgenteInfo,
                   'http://%s:%d/comm' % (hostname, port),

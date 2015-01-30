@@ -14,12 +14,13 @@ __author__ = 'javier'
 from multiprocessing import Process, Array
 from ctypes import c_int
 
+
 def proceso1(a):
-   for i in range(0,10,2):
+    for i in range(0,10,2):
         a[i] = i*i
 
 def proceso2(a):
-   for i in range(1,10,2):
+    for i in range(1,10,2):
         a[i] = i*i
 
 if __name__ == '__main__':

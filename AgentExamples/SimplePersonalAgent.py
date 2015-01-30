@@ -12,11 +12,11 @@ Created on 09/02/2014
 
 __author__ = 'javier'
 
-from  multiprocessing import Process
+from multiprocessing import Process
 import socket
 
-from flask import Flask, render_template, request, url_for
-from rdflib import Graph, Namespace, Literal, URIRef, BNode
+from flask import Flask, render_template, request
+from rdflib import Graph, Namespace
 from rdflib.namespace import FOAF, RDF
 import requests
 
@@ -44,8 +44,6 @@ AgentePersonal = Agent('AgentePersonal',
                        'http://%s:%d/comm' % (hostname, port),
                        'http://%s:%d/Stop' % (hostname, port))
 
-
-
 # Directory agent address
 DirectoryAgent = Agent('DirectoryAgent',
                        agn.Directory,
@@ -56,7 +54,6 @@ DirectoryAgent = Agent('DirectoryAgent',
 dsgraph = Graph()
 
 
-
 def directory_search_message(type):
     """
     Busca en el servicio de registro mandando un
@@ -65,7 +62,7 @@ def directory_search_message(type):
     Podria ser mas adecuado mandar un query-ref y una descripcion de registo
     con variables
 
-    :param gmess:
+    :param type:
     :return:
     """
     global mss_cnt
@@ -74,16 +71,16 @@ def directory_search_message(type):
 
     gmess.bind('foaf', FOAF)
     gmess.bind('dso', DSO)
-    reg_obj = agn[AgentePersonal.name+'-search']
+    reg_obj = agn[AgentePersonal.name + '-search']
     gmess.add((reg_obj, RDF.type, DSO.Search))
-    gmess.add((reg_obj, DSO.AgentType,type))
+    gmess.add((reg_obj, DSO.AgentType, type))
 
-    msg = build_message(gmess, perf= ACL.request,
-                      sender=AgentePersonal.uri,
-                      receiver=DirectoryAgent.uri,
-                      content=reg_obj,
-                      msgcnt=mss_cnt)
-    gr = send_message(msg,DirectoryAgent.address)
+    msg = build_message(gmess, perf=ACL.request,
+                        sender=AgentePersonal.uri,
+                        receiver=DirectoryAgent.uri,
+                        content=reg_obj,
+                        msgcnt=mss_cnt)
+    gr = send_message(msg, DirectoryAgent.address)
     mss_cnt += 1
     return gr
 
@@ -105,16 +102,15 @@ def infoagent_search_message(addr, ragn_uri):
     gmess.add((reg_obj, RDF.type, IAA.Search))
 
     msg = build_message(gmess, perf=ACL.request,
-                      sender=AgentePersonal.uri,
-                      receiver=ragn_uri,
-                      msgcnt=mss_cnt)
+                        sender=AgentePersonal.uri,
+                        receiver=ragn_uri,
+                        msgcnt=mss_cnt)
     gr = send_message(msg, addr)
     mss_cnt += 1
     return gr
 
 
-
-@app.route("/iface", methods=['GET','POST'])
+@app.route("/iface", methods=['GET', 'POST'])
 def browser_iface():
     """
     Permite la comunicacion con el agente via un navegador
@@ -139,6 +135,7 @@ def stop():
     shutdown_server()
     return "Parando Servidor"
 
+
 @app.route("/comm")
 def comunicacion():
     """
@@ -146,13 +143,13 @@ def comunicacion():
     """
     return "Hola"
 
+
 def tidyup():
     """
     Acciones previas a parar el agente
 
     """
     pass
-    #dsgraph.close()
 
 
 def agentbehavior1():
@@ -185,7 +182,7 @@ def agentbehavior1():
 
 if __name__ == '__main__':
     # Ponemos en marcha los behaviors
-    ab1=Process(target=agentbehavior1)
+    ab1 = Process(target=agentbehavior1)
     ab1.start()
 
     # Ponemos en marcha el servidor
@@ -194,4 +191,3 @@ if __name__ == '__main__':
     # Esperamos a que acaben los behaviors
     ab1.join()
     print 'The End'
-

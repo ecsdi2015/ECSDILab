@@ -2,7 +2,9 @@
 """
 File: AgentFlights
 
-Created on 07/02/2014 9:00 
+Created on 07/02/2014 9:00
+
+Hace consultas al fichero FlightRoutes.ttl.gz
 
 @author: bejar
 
@@ -10,18 +12,18 @@ Created on 07/02/2014 9:00
 
 __author__ = 'bejar'
 
-from rdflib import Namespace, URIRef, Graph, ConjunctiveGraph
-from AgentUtil.OntoNamespaces  import TIO, GEO
+from rdflib import Graph
+from OntoNamespaces import TIO, GEO
 import time
 import gzip
 
 g = Graph()
-print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
+# Carga el grafo RDF desde el fichero
 ontofile = gzip.open('../FlightData/FlightRoutes.ttl.gz')
 g.parse(ontofile, format='turtle')
 
-print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+# Consulta al grafo los aeropuertos dentro de la caja definida por las coordenadas
 qres = g.query(
     """
     prefix tio:<http://purl.org/tio/ns#>
@@ -40,13 +42,13 @@ qres = g.query(
         }
     LIMIT 30
     """,
-   initNs= dict(tio=TIO))
+    initNs=dict(tio=TIO))
 
-print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-
+# Recorre los resultados y se queda con el ultimo resultado
 for r in qres:
     ap = r['f']
 
+# Consulta todos los vuelos que conectan con ese aeropuerto
 airquery = """
     prefix tio:<http://purl.org/tio/ns#>
     Select *
@@ -58,10 +60,9 @@ airquery = """
         }
     """ % ap
 
-print airquery
 
 qres = g.query(airquery, initNs=dict(tio=TIO))
-print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
+# Imprime los resultados
 for row in qres.result:
     print row
