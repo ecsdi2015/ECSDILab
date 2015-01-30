@@ -27,7 +27,6 @@ query_result = google_places.nearby_search(
         radius=300, types=['bus_station'])
 
 # Imprimimos informacion de los resultados
-
 print query_result
 if query_result.has_attributions:
     print query_result.html_attributions
