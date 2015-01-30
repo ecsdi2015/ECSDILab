@@ -1,6 +1,15 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Dec 26 10:47:57 2013
+
+Webservice flask con una entrada
+
+/agente - Retorna la suma de los dos numeros que se pasan como parametros x e y de la peticion
+
+@author: javier
+"""
 __author__ = 'bejar'
 
-from  multiprocessing import Process
 from flask import Flask,request
 app = Flask(__name__)
 

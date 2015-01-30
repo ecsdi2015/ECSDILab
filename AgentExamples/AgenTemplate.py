@@ -2,10 +2,14 @@
 """
 Created on Fri Dec 27 15:58:13 2013
 
-Agente que realiza peticiones
+Esqueleto de agente usando los servicios web de Flask
 
-Demo de agente que utiliza las performativas FIPA para comunicación entre agentes
-Las performativas estan definidas en la ontologia fipa-acl.owl
+/comm es la entrada para la recepcion de mensajes del agente
+/Stop es la entrada que para el agente
+
+Tiene una funcion AgentBehavior1 que se lanza como un thread concurrente
+
+Asume que el agente de registro esta en el puerto 9000
 
 @author: javier
 """

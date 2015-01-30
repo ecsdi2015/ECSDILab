@@ -26,7 +26,7 @@ def hello():
 @app.route("/agent1", methods=['GET', 'POST'])
 def agent1():
     if request.method == 'GET':
-        a= g.serialize(format='xml')
+        a = g.serialize(format='xml')
         return a
     else:
         message= request.args['content']
@@ -51,8 +51,8 @@ if __name__ == "__main__":
     mary = URIRef("http://love.com/lovers/mary#")
     john = URIRef("http://love.com/lovers/john#")
     
-    cmary=URIRef("http://love.com/lovers/mary#")
-    cjohn=URIRef("http://love.com/lovers/john#")
+    cmary = URIRef("http://love.com/lovers/mary#")
+    cjohn  =URIRef("http://love.com/lovers/john#")
     
     store = IOMemory()
     

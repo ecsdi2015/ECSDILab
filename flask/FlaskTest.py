@@ -2,6 +2,12 @@
 """
 Created on Thu Dec 26 10:47:57 2013
 
+Webservice flask con tres entradas
+
+ / - Responde con Hola mundo
+ /pag - pagina web que enseña una pagina con numeros de 0 al 9
+ /agent1 - Responde con un mensaje diferente si se recibe un GET o un POST
+
 @author: javier
 """
 
