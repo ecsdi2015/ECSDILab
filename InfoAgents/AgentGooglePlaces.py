@@ -1,23 +1,34 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Dec 27 15:58:13 2013
+
+Agente que responde a peticiones
+
+Demo que hace una consulta a Google Places con las coordenadas que le asigna el
+servicio de geolocalizacion a Barcelona en un area de 300m a la redonda buscando estaciones
+de metro (categorizadas como 'bus_station')
+
+Se ha de crear un fichero python APIKeys.py que contenga la informaciÃ³n para el
+acceso a las APIs de Google (GOOGLEAPI_KEY)
+
+@author: javier
+"""
 __author__ = 'javier'
 
-from googleplaces import GooglePlaces, types, lang
+from googleplaces import GooglePlaces
 from APIKeys import GOOGLEAPI_KEY
 import pprint
 
 
 google_places = GooglePlaces(GOOGLEAPI_KEY)
 
-#print google_places.geocode_location('Barcelona, España')
 query_result = google_places.nearby_search(
-        location=u'Barcelona, España', keyword='metro',
+        location=u'Barcelona, EspaÃ±a', keyword='metro',
         radius=300, types=['bus_station'])
 
+# Imprimimos informacion de los resultados
+
 print query_result
-# query_result = google_places.nearby_search(
-#         location='Barcelona, España', keyword='metro',
-#         radius=300, types=['bus_station'])
-#
 if query_result.has_attributions:
     print query_result.html_attributions
 
@@ -34,7 +45,4 @@ for place in query_result.places:
     # get_details() will raise a googleplaces.GooglePlacesAttributeError.
     pprint.pprint(place.details) # A dict matching the JSON response from Google.
     print place.local_phone_number
-#    print place.international_phone_number
-#    print place.website
-#    print place.url
 
