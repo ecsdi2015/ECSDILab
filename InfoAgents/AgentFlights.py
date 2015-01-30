@@ -11,7 +11,7 @@ Created on 07/02/2014 9:00
 __author__ = 'bejar'
 
 from rdflib import Namespace, URIRef, Graph, ConjunctiveGraph
-from OntoNamespaces import TIO, GEO
+from AgentUtil.OntoNamespaces  import TIO, GEO
 import time
 import gzip
 
