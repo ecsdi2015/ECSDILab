@@ -11,7 +11,7 @@ Webservice flask con tres entradas
 @author: javier
 """
 
-from  multiprocessing import Process
+from multiprocessing import Process
 from flask import Flask, request, render_template
 app = Flask(__name__)
 

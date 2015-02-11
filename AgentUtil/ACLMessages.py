@@ -13,7 +13,8 @@ __author__ = 'javier'
 from rdflib import Graph
 import requests
 from rdflib.namespace import RDF
-from OntoNamespaces import ACL, DSO
+
+from FlaskServer.OntoNamespaces import ACL
 
 
 def build_message(gmess, perf, sender=None, receiver=None,  content=None, msgcnt= 0):

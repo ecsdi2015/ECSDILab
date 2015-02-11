@@ -21,13 +21,14 @@ from multiprocessing import Process, Queue
 import socket
 
 from flask import Flask, request, render_template
-from rdflib import Graph, RDF, Namespace, Literal, RDFS
+from rdflib import Graph, RDF, Namespace, RDFS
 from rdflib.namespace import FOAF
 
-from OntoNamespaces import ACL, DSO
-from AgentUtil import shutdown_server
-from Agent import Agent
-from ACLMessages import build_message, get_message_properties
+from AgentUtil.OntoNamespaces import ACL, DSO
+from AgentUtil.FlaskServer import shutdown_server
+from AgentUtil.Agent import Agent
+from AgentUtil.ACLMessages import build_message, get_message_properties
+
 
 # Configuration stuff
 hostname = socket.gethostname()

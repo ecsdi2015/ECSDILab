@@ -22,6 +22,7 @@ from rdflib.namespace import FOAF
 from OntoNamespaces import ACL
 from AgentUtil import shutdown_server
 
+
 # Configuration stuff
 hostname = socket.gethostname()
 port = 9000

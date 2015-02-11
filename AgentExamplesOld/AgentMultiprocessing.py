@@ -12,15 +12,15 @@ Las performativas estan definidas en la ontologia fipa-acl.owl
 
 __author__ = 'javier'
 
-import requests
 from  multiprocessing import Process, Queue
 import multiprocessing
-from rdflib import Namespace, URIRef, Graph, ConjunctiveGraph, Literal
-from rdflib.namespace import FOAF, RDF
-from OntoNamespaces import ACL
-from flask import Flask, render_template, request, url_for
 import socket
+
+from rdflib import Namespace, Graph
+from flask import Flask
+
 from AgentUtil import shutdown_server
+
 
 
 # Configuration stuff

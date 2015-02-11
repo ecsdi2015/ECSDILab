@@ -6,12 +6,7 @@ Created on Thu Dec 26 10:47:57 2013
 """
 
 
-import rdflib
-#import rdfextras
-from rdflib import OWL
-import pprint
-from rdflib import plugin
-from rdflib import Namespace, BNode, Literal, URIRef
+from rdflib import Namespace, Literal, URIRef
 from rdflib.graph import Graph, ConjunctiveGraph
 from rdflib.plugins.memory import IOMemory
 from  multiprocessing import Process
@@ -52,12 +47,12 @@ if __name__ == "__main__":
     john = URIRef("http://love.com/lovers/john#")
     
     cmary = URIRef("http://love.com/lovers/mary#")
-    cjohn  =URIRef("http://love.com/lovers/john#")
+    cjohn = URIRef("http://love.com/lovers/john#")
     
     store = IOMemory()
     
     g = ConjunctiveGraph(store=store)
-    g.bind("loves",ns)
+    g.bind("loves", ns)
     
     gmary = Graph(store=store, identifier=cmary)
     
@@ -66,9 +61,8 @@ if __name__ == "__main__":
     
     gjohn = Graph(store=store, identifier=cjohn)
     gjohn.add((john, ns['hasName'], Literal("John")))
-    
-    
-    p1=Process(target=webservices)
-    p2=Process(target=mainloop)
+
+    p1 = Process(target=webservices)
+    p2 = Process(target=mainloop)
     p1.start()
     p2.start()

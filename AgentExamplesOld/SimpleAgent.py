@@ -16,7 +16,7 @@ __author__ = 'bejar'
 from  multiprocessing import Process
 import socket
 
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request
 from rdflib import Graph, Namespace, Literal, URIRef
 from rdflib.namespace import FOAF, RDF
 import requests
@@ -24,6 +24,7 @@ import requests
 from OntoNamespaces import ACL, OWLSProfile, OWLSService
 from AgentUtil import shutdown_server
 from ACLMessages import build_message
+
 
 
 

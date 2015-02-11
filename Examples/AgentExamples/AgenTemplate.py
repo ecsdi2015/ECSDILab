@@ -16,13 +16,15 @@ Asume que el agente de registro esta en el puerto 9000
 
 __author__ = 'javier'
 
-import requests
-from  multiprocessing import Process, Queue
+from multiprocessing import Process, Queue
+import socket
+
 from rdflib import Namespace,  Graph
 from flask import Flask
-import socket
-from AgentUtil import shutdown_server
-from Agent import Agent
+
+from AgentUtil.FlaskServer import shutdown_server
+from AgentUtil.Agent import Agent
+
 
 # Configuration stuff
 hostname = socket.gethostname()

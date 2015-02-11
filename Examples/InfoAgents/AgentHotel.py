@@ -17,9 +17,9 @@ acceso a EAN (EANCID, EANKEY)
 
 __author__ = 'javier'
 
-
 import requests
-from APIKeys import EANCID, EANKEY
+from AgentUtil.APIKeys import EANCID, EANKEY
+
 
 EAN_END_POINT = 'http://dev.api.ean.com/ean-services/rs/hotel/v3/list'
 

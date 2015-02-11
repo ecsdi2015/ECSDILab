@@ -11,15 +11,15 @@ __author__ = 'javier'
 from  multiprocessing import Process, Queue
 import socket
 
-from flask import Flask, render_template, request, url_for
-from rdflib import Graph, Namespace, Literal, URIRef, BNode
+from flask import Flask, request
+from rdflib import Graph, Namespace, Literal
 from rdflib.namespace import FOAF, RDF
-import requests
 
-from OntoNamespaces import ACL, DSO
-from AgentUtil import shutdown_server
-from ACLMessages import build_message, send_message, get_message_properties
-from Agent import Agent
+from AgentUtil.OntoNamespaces import ACL, DSO
+from AgentUtil.FlaskServer import shutdown_server
+from AgentUtil.ACLMessages import build_message, send_message, get_message_properties
+from AgentUtil.Agent import Agent
+
 
 # Configuration stuff
 hostname = socket.gethostname()

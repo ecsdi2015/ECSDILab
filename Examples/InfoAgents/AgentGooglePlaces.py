@@ -15,9 +15,9 @@ acceso a las APIs de Google (GOOGLEAPI_KEY)
 """
 __author__ = 'javier'
 
-from googleplaces import GooglePlaces
-from APIKeys import GOOGLEAPI_KEY
 import pprint
+from googleplaces import GooglePlaces
+from AgentUtil.APIKeys import GOOGLEAPI_KEY
 
 
 google_places = GooglePlaces(GOOGLEAPI_KEY)

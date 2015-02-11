@@ -12,9 +12,12 @@ Hace consultas al fichero FlightRoutes.ttl.gz
 
 __author__ = 'bejar'
 
-from rdflib import Graph
-from OntoNamespaces import TIO
 import gzip
+
+from rdflib import Graph
+
+from AgentUtil.OntoNamespaces import TIO
+
 
 g = Graph()
 

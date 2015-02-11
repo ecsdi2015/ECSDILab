@@ -20,10 +20,11 @@ from rdflib import Graph, Namespace
 from rdflib.namespace import FOAF, RDF
 import requests
 
-from OntoNamespaces import ACL, DSO
-from AgentUtil import shutdown_server
-from ACLMessages import build_message, send_message
-from Agent import Agent
+from AgentUtil.OntoNamespaces import ACL, DSO
+from AgentUtil.FlaskServer import shutdown_server
+from AgentUtil.ACLMessages import build_message, send_message
+from AgentUtil.Agent import Agent
+
 
 # Configuration stuff
 hostname = socket.gethostname()

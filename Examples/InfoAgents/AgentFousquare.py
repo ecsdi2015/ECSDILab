@@ -15,7 +15,9 @@ acceso a FourSquare (FQCLIENT_ID, FQCLIENT_SECRET)
 __author__ = 'javier'
 
 import foursquare
-from APIKeys import FQCLIENT_ID, FQCLIENT_SECRET
+
+from AgentUtil.APIKeys import FQCLIENT_ID, FQCLIENT_SECRET
+
 
 CLIENT_ID = FQCLIENT_ID
 CLIENT_SECRET = FQCLIENT_SECRET

@@ -14,7 +14,7 @@ __author__ = 'javier'
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 
-from SPARQLPoints import DBPEDIA
+from AgentUtil.SPARQLPoints import DBPEDIA
 
 
 sparql = SPARQLWrapper(DBPEDIA)

@@ -1,8 +1,7 @@
 __author__ = 'javier'
 
 from SPARQLWrapper import SPARQLWrapper, JSON
-
-from SPARQLPoints import OPENLINK
+from AgentUtil.SPARQLPoints import OPENLINK
 
 
 sparql = SPARQLWrapper(OPENLINK)
