@@ -25,9 +25,6 @@ from OntoNamespaces import ACL, OWLSProfile, OWLSService
 from AgentUtil import shutdown_server
 from ACLMessages import build_message
 
-
-
-
 # Configuration stuff
 hostname = socket.gethostname()
 port = 9001
