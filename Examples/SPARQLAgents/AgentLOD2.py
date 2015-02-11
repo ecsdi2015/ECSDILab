@@ -26,6 +26,6 @@ LIMIT 200  """)
 
 sparql.setReturnFormat(JSON)
 results = sparql.query()
-print results.print_results()
+results.print_results()
 
 
