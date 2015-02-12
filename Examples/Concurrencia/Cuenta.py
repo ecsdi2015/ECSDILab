@@ -13,7 +13,6 @@ __author__ = 'javier'
 
 from multiprocessing import Process
 
-
 def cuenta(li,ls):
     for i in range(li,ls):
         print i, '\n'

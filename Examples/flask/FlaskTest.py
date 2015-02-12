@@ -13,26 +13,47 @@ Webservice flask con tres entradas
 
 from multiprocessing import Process
 from flask import Flask, request, render_template
+from time import  sleep
+
 app = Flask(__name__)
 
 @app.route("/")
 def hello():
+    """
+    El hola mundo de los servicios web
+    :return:
+    """
     return "Hello World!"
 
 @app.route("/pag")
 def pag():
+    """
+    Entrada que sirve una pagina de web que cuenta hasta 10
+    :return:
+    """
     return render_template('file.html', values=range(10))
     
     
 @app.route("/agent1", methods=['GET', 'POST'])
 def agent1():
+    """
+    Entrada del Servicio que responde de manera diferente a GET y POST
+    :return:
+    """
     if request.method == 'GET':
         return "This is Agent1"
     else:
         return "Message Received\n"
 
 def mainloop():
-    print 'MainLoop'
+    """
+    Proceso concurrente haciendo sus cosas
+    :return:
+    """
+    for i in range(10):
+        print 'Este poceso es concurrente', i
+        sleep(3)
+    print 'y ya se acabo'
     
 
 if __name__ == "__main__":
