@@ -4,7 +4,7 @@ filename: SincronizacionLock
 
 Escritura exclusiva en un recurso compartido
 
-Created on 12/02/2014
+Created on 12/02/2015
 
 @author: javier
 """
