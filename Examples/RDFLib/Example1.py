@@ -13,7 +13,7 @@ Ejemplos de RDFLIB
 __author__ = 'bejar'
 
 
-from rdflib.namespace import RDF, RDFS, Namespace, FOAF
+from rdflib.namespace import RDF, RDFS, Namespace, FOAF, OWL
 from rdflib import Graph, BNode, Literal
 from pprint import pformat
 
