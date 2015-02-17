@@ -22,7 +22,7 @@ from AgentUtil.OntoNamespaces import TIO
 g = Graph()
 
 # Carga el grafo RDF desde el fichero
-ontofile = gzip.open('../FlightData/FlightRoutes.ttl.gz')
+ontofile = gzip.open('../../FlightData/FlightRoutes.ttl.gz')
 g.parse(ontofile, format='turtle')
 
 # Consulta al grafo los aeropuertos dentro de la caja definida por las coordenadas
