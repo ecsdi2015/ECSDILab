@@ -8,7 +8,7 @@ Agente que se registra como agente de hoteles y espera peticiones
 """
 __author__ = 'javier'
 
-from  multiprocessing import Process, Queue
+from multiprocessing import Process, Queue
 import socket
 
 from flask import Flask, request

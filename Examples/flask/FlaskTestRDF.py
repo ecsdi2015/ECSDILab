@@ -28,7 +28,7 @@ def agent1():
         gm = Graph()
         gm.parse(data=message)
         print gm.serialize(format='n3')
-        a= gjohn.serialize(format='xml')
+        a = gjohn.serialize(format='xml')
         return a
 
 def webservices():
