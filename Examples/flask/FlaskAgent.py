@@ -10,16 +10,21 @@ FlaskAgent
 
   Se ha de invocar desde linea de comandos por ejemplo:
 
-  python FlaskAgent.py --host localhost --port 5000 --acomm localhost --aport 5001 --messages a b c
+  python FlaskAgent.py --host localhost --port 9000 --acomm localhost --aport 9001 --messages a b c
 
   donde:
    --host es la maquina donde corre el servicio (por defecto localhost)
+            si se usa el host 0.0.0.0 se podra ver el servicio desde otras maquinas
    --port es el puerto de escucha del servicio
    --acomm es la maquina donde esta el servicio al que se le enviaran mensajes
    --aport es el puerto donde escucha el servicio con el que nos vamos a comunicar
    --messages es una lista de mensajes que se enviaran
 
-  para que funcione tiene que haber otra instancia del servicio
+  para que funcione tiene que haber otra instancia del servicio en el host y puerto indicados.
+
+  En la red de PCs de los aularios se pueden usar los puertos de 9000-10000 para comunicarse entre
+  distintos pc's, se puede averiguar el nombre de la maquina en la que estamos haciendo por ejemplo
+  uname -n
 
 :Authors: bejar
     
