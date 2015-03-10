@@ -67,7 +67,7 @@ def get_message_properties(msg):
 
     Los elementos que no estan, no aparecen en el diccionario
     """
-    props = {'performative' : ACL.performative, 'sender': ACL.sender,
+    props = {'performative': ACL.performative, 'sender': ACL.sender,
              'receiver': ACL.receiver, 'ontology': ACL.ontology,
              'conversation-id': ACL['conversation-id'],
              'in-reply-to': ACL['in-reply-to'], 'content': ACL.content}
