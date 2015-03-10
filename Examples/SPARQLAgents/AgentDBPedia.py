@@ -61,11 +61,11 @@ sparql.setQuery("""
     LIMIT 1000
 """)
 
-
 # Obtenemos los resultado en formato RDF que ya es un Graph() de RDFLib
 sparql.setReturnFormat(RDF)
 resgraph = sparql.query().convert()
 
+# Resultado en N3
 print resgraph.serialize(format='n3')
 
 # Obtenemos todos los predicados
