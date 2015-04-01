@@ -46,9 +46,13 @@ qres = g.query(
     """,
     initNs=dict(tio=TIO))
 
-# Recorre los resultados y se queda con el ultimo resultado
+# Recorre los resultados y se queda con el ultimo
 for r in qres:
     ap = r['f']
+
+print 'Aeropuerto:', ap
+print
+
 
 # Consulta todos los vuelos que conectan con ese aeropuerto
 airquery = """
@@ -64,6 +68,10 @@ airquery = """
 
 
 qres = g.query(airquery, initNs=dict(tio=TIO))
+
+print 'Num Vuelos:', len(qres.result)
+print
+
 
 # Imprime los resultados
 for row in qres.result:
