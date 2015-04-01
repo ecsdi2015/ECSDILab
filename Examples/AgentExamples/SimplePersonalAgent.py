@@ -14,6 +14,7 @@ __author__ = 'javier'
 
 from multiprocessing import Process
 import socket
+import argparse
 
 from flask import Flask, render_template, request
 from rdflib import Graph, Namespace
@@ -24,11 +25,41 @@ from AgentUtil.OntoNamespaces import ACL, DSO
 from AgentUtil.FlaskServer import shutdown_server
 from AgentUtil.ACLMessages import build_message, send_message
 from AgentUtil.Agent import Agent
+from AgentUtil.Logging import config_logger
 
+# Definimos los parametros de la linea de comandos
+parser = argparse.ArgumentParser()
+parser.add_argument('--open', help="Define si el servidor est abierto al exterior o no", action='store_true', default=False)
+parser.add_argument('--port', type=int, help="Puerto de comunicacion del agente")
+parser.add_argument('--dhost', default='localhost', help="Host del agente de directorio")
+parser.add_argument('--dport', type=int, help="Puerto de comunicacion del agente de directorio")
+
+# Logging
+logger = config_logger(level=1)
+
+# parsing de los parametros de la linea de comandos
+args = parser.parse_args()
 
 # Configuration stuff
-hostname = socket.gethostname()
-port = 9002
+if args.port is None:
+    port = 9002
+else:
+    port = args.port
+
+if args.open is None:
+    hostname = '0.0.0.0'
+else:
+    hostname = socket.gethostname()
+
+if args.dport is None:
+    dport = 9000
+else:
+    dport = args.dport
+
+if args.dhost is None:
+    dhostname = socket.gethostname()
+else:
+    dhostname = args.dhost
 
 # Flask stuff
 app = Flask(__name__)
@@ -48,8 +79,8 @@ AgentePersonal = Agent('AgentePersonal',
 # Directory agent address
 DirectoryAgent = Agent('DirectoryAgent',
                        agn.Directory,
-                       'http://%s:9000/Register' % hostname,
-                       'http://%s:9000/Stop' % hostname)
+                       'http://%s:%d/Register' % (dhostname, dport),
+                       'http://%s:%d/Stop' % (dhostname, dport))
 
 # Global dsgraph triplestore
 dsgraph = Graph()
@@ -67,6 +98,7 @@ def directory_search_message(type):
     :return:
     """
     global mss_cnt
+    logger.info('Buscamos en el servicio de registro')
 
     gmess = Graph()
 
@@ -83,6 +115,8 @@ def directory_search_message(type):
                         msgcnt=mss_cnt)
     gr = send_message(msg, DirectoryAgent.address)
     mss_cnt += 1
+    logger.info('Recibimos informacion del agente')
+
     return gr
 
 
@@ -91,6 +125,7 @@ def infoagent_search_message(addr, ragn_uri):
     Envia una accion a un agente de informacion
     """
     global mss_cnt
+    logger.info('Hacemos una peticion al servicio de informacion')
 
     gmess = Graph()
 
@@ -108,6 +143,8 @@ def infoagent_search_message(addr, ragn_uri):
                         msgcnt=mss_cnt)
     gr = send_message(msg, addr)
     mss_cnt += 1
+    logger.info('Recibimos respuesta a la peticion al servicio de informacion')
+
     return gr
 
 
@@ -181,6 +218,7 @@ def agentbehavior1():
     # Selfdestruct
     requests.get(AgentePersonal.stop)
 
+
 if __name__ == '__main__':
     # Ponemos en marcha los behaviors
     ab1 = Process(target=agentbehavior1)
@@ -191,4 +229,4 @@ if __name__ == '__main__':
 
     # Esperamos a que acaben los behaviors
     ab1.join()
-    print 'The End'
+    logger.info('The End')

@@ -10,6 +10,7 @@ __author__ = 'javier'
 
 from multiprocessing import Process, Queue
 import socket
+import argparse
 
 from flask import Flask, request
 from rdflib import Graph, Namespace, Literal
@@ -19,11 +20,42 @@ from AgentUtil.OntoNamespaces import ACL, DSO
 from AgentUtil.FlaskServer import shutdown_server
 from AgentUtil.ACLMessages import build_message, send_message, get_message_properties
 from AgentUtil.Agent import Agent
+from AgentUtil.Logging import config_logger
 
+
+# Definimos los parametros de la linea de comandos
+parser = argparse.ArgumentParser()
+parser.add_argument('--open', help="Define si el servidor est abierto al exterior o no", action='store_true', default=False)
+parser.add_argument('--port', type=int, help="Puerto de comunicacion del agente")
+parser.add_argument('--dhost', default='localhost', help="Host del agente de directorio")
+parser.add_argument('--dport', type=int, help="Puerto de comunicacion del agente de directorio")
+
+# Logging
+logger = config_logger(level=1)
+
+# parsing de los parametros de la linea de comandos
+args = parser.parse_args()
 
 # Configuration stuff
-hostname = socket.gethostname()
-port = 9001
+if args.port is None:
+    port = 9001
+else:
+    port = args.port
+
+if args.open is None:
+    hostname = '0.0.0.0'
+else:
+    hostname = socket.gethostname()
+
+if args.dport is None:
+    dport = 9000
+else:
+    dport = args.dport
+
+if args.dhost is None:
+    dhostname = socket.gethostname()
+else:
+    dhostname = args.dhost
 
 # Flask stuff
 app = Flask(__name__)
@@ -43,8 +75,8 @@ InfoAgent = Agent('AgenteInfo1',
 # Directory agent address
 DirectoryAgent = Agent('DirectoryAgent',
                        agn.Directory,
-                       'http://%s:9000/Register' % hostname,
-                       'http://%s:9000/Stop' % hostname)
+                       'http://%s:%d/Register' % (dhostname, dport),
+                       'http://%s:%d/Stop' % (dhostname, dport))
 
 # Global dsgraph triplestore
 dsgraph = Graph()
@@ -61,6 +93,9 @@ def register_message():
     :param gmess:
     :return:
     """
+
+    logger.info('Nos registramos')
+
     global mss_cnt
 
     gmess = Graph()
@@ -122,6 +157,8 @@ def comunicacion():
     global dsgraph
     global mss_cnt
 
+    logger.info('Peticion de informacion recibida')
+
     #Extraemos el mensaje y creamos un grafo con el
     message= request.args['content']
     gm = Graph()
@@ -157,6 +194,9 @@ def comunicacion():
                                msgcnt=mss_cnt,
                                receiver=msgdic['sender'],)
     mss_cnt += 1
+
+    logger.info('Respondemos a la peticion')
+
     return gr.serialize(format='xml')
 
 
@@ -202,4 +242,4 @@ if __name__ == '__main__':
 
     # Esperamos a que acaben los behaviors
     ab1.join()
-    print 'The End'
+    logger.info('The End')

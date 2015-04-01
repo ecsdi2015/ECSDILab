@@ -20,6 +20,7 @@ def proceso1(nsp, l):
     for i,v in enumerate(a):
         data[v] = i
     nsp.data = data
+    print nsp.data
     l.release()
 
 def proceso2(nsp, l):
@@ -29,6 +30,7 @@ def proceso2(nsp, l):
     for i,v in enumerate(a):
         data[v] = i
     nsp.data = data
+    print nsp.data
     l.release()
 
 if __name__ == '__main__':

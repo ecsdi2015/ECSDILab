@@ -19,6 +19,7 @@ __author__ = 'javier'
 
 from multiprocessing import Process, Queue
 import socket
+import argparse
 
 from flask import Flask, request, render_template
 from rdflib import Graph, RDF, Namespace, RDFS
@@ -28,11 +29,30 @@ from AgentUtil.OntoNamespaces import ACL, DSO
 from AgentUtil.FlaskServer import shutdown_server
 from AgentUtil.Agent import Agent
 from AgentUtil.ACLMessages import build_message, get_message_properties
+from AgentUtil.Logging import config_logger
 
+
+# Definimos los parametros de la linea de comandos
+parser = argparse.ArgumentParser()
+parser.add_argument('--open', help="Define si el servidor est abierto al exterior o no", action='store_true', default=False)
+parser.add_argument('--port', type=int, help="Puerto de comunicacion del agente")
+
+# Logging
+logger = config_logger(level=1)
+
+# parsing de los parametros de la linea de comandos
+args = parser.parse_args()
 
 # Configuration stuff
-hostname = socket.gethostname()
-port = 9000
+if args.port is None:
+    port = 9000
+else:
+    port = args.port
+
+if args.open is None:
+    hostname = '0.0.0.0'
+else:
+    hostname = socket.gethostname()
 
 # Directory Service Graph
 dsgraph = Graph()
@@ -70,6 +90,9 @@ def register():
     def process_register():
         # Si la hay extraemos el nombre del agente (FOAF.Name), el URI del agente
         # su direccion y su tipo
+
+        logger.info('Peticion de registro')
+
         agn_add = gm.value(subject=content, predicate=DSO.Address)
         agn_name = gm.value(subject=content, predicate=FOAF.Name)
         agn_uri = gm.value(subject=content, predicate=DSO.Uri)
@@ -99,6 +122,9 @@ def register():
         # Solo consideramos cuando Search indica el tipo de agente
         # Buscamos una coincidencia exacta
         # Retornamos el primero de la lista de posibilidades
+
+        logger.info('Peticion de busqueda')
+
         agn_type = gm.value(subject=content, predicate=DSO.AgentType)
         rsearch = dsgraph.triples((None, DSO.AgentType, agn_type))
         if rsearch is not None:
@@ -125,7 +151,6 @@ def register():
 
     global dsgraph
     global mss_cnt
-
     #Extraemos el mensaje y creamos un grafo con él
     message= request.args['content']
     gm = Graph()
@@ -226,5 +251,4 @@ if __name__ == '__main__':
     app.run(host=hostname, port=port, debug=True)
 
     ab1.join()
-    print 'The End'
-
+    logger.info('The End')
