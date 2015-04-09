@@ -13,25 +13,28 @@ __author__ = 'javier'
 
 from multiprocessing import Process, Manager, Lock
 
+
 def proceso1(nsp, l):
     l.acquire()
     data = nsp.data
     a = ['a', 'b', 'c']
-    for i,v in enumerate(a):
+    for i, v in enumerate(a):
         data[v] = i
     nsp.data = data
     print nsp.data
     l.release()
 
+
 def proceso2(nsp, l):
     l.acquire()
     data = nsp.data
     a = ['e', 'f', 'g']
-    for i,v in enumerate(a):
+    for i, v in enumerate(a):
         data[v] = i
     nsp.data = data
     print nsp.data
     l.release()
+
 
 if __name__ == '__main__':
     shnsp = Manager().Namespace()

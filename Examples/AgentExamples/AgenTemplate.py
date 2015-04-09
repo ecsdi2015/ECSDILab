@@ -19,7 +19,7 @@ __author__ = 'javier'
 from multiprocessing import Process, Queue
 import socket
 
-from rdflib import Namespace,  Graph
+from rdflib import Namespace, Graph
 from flask import Flask
 
 from AgentUtil.FlaskServer import shutdown_server
@@ -57,6 +57,7 @@ cola1 = Queue()
 # Flask stuff
 app = Flask(__name__)
 
+
 @app.route("/comm")
 def comunicacion():
     """
@@ -65,6 +66,7 @@ def comunicacion():
     global dsgraph
     global mss_cnt
     pass
+
 
 @app.route("/Stop")
 def stop():
@@ -85,6 +87,7 @@ def tidyup():
     """
     pass
 
+
 def agentbehavior1(cola):
     """
     Un comportamiento del agente
@@ -96,7 +99,7 @@ def agentbehavior1(cola):
 
 if __name__ == '__main__':
     # Ponemos en marcha los behaviors
-    ab1=Process(target=agentbehavior1,args=(cola1,))
+    ab1 = Process(target=agentbehavior1, args=(cola1,))
     ab1.start()
 
     # Ponemos en marcha el servidor

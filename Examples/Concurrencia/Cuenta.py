@@ -14,9 +14,11 @@ __author__ = 'javier'
 
 from multiprocessing import Process
 
-def cuenta(li,ls):
-    for i in range(li,ls):
+
+def cuenta(li, ls):
+    for i in range(li, ls):
         print i, '\n'
+
 
 if __name__ == '__main__':
     p1 = Process(target=cuenta, args=(10, 100,))

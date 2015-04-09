@@ -33,7 +33,7 @@ r = requests.get(EAN_END_POINT,
                          'latitude': '041.40000', 'longitude': '002.16000',
                          'searchRadius': 2, 'searchRadiusUnit': 'KM',
                          'arrivalDate': '02/01/2015', 'departureDate': '02/05/2015'
-                 })
+                         })
 
 # Generamos un diccionario python de la respuesta en JSON
 dic = r.json()

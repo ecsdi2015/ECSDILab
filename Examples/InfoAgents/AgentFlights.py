@@ -66,7 +66,6 @@ airquery = """
         }
     """ % ap
 
-
 qres = g.query(airquery, initNs=dict(tio=TIO))
 
 print 'Num Vuelos:', len(qres.result)

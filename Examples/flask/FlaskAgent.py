@@ -37,7 +37,6 @@ FlaskAgent
 
 __author__ = 'bejar'
 
-
 from flask import Flask, request
 import argparse
 import requests
@@ -54,6 +53,7 @@ parser.add_argument('--messages', nargs='+', default=[], help="mensajes a enviar
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def isalive():
     """
@@ -61,6 +61,7 @@ def isalive():
     :return:
     """
     return 'alive'
+
 
 @app.route("/comunica")
 def servicio():
@@ -101,7 +102,7 @@ def behavior(mess, comm):
     # Enviamos todos los mensajes
     for m in mess:
         print 'enviando', m
-        r = requests.get(address+'comunica', params={'content': m})
+        r = requests.get(address + 'comunica', params={'content': m})
         print r.text
 
 

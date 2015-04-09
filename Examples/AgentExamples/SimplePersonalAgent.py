@@ -29,7 +29,8 @@ from AgentUtil.Logging import config_logger
 
 # Definimos los parametros de la linea de comandos
 parser = argparse.ArgumentParser()
-parser.add_argument('--open', help="Define si el servidor est abierto al exterior o no", action='store_true', default=False)
+parser.add_argument('--open', help="Define si el servidor est abierto al exterior o no", action='store_true',
+                    default=False)
 parser.add_argument('--port', type=int, help="Puerto de comunicacion del agente")
 parser.add_argument('--dhost', default='localhost', help="Host del agente de directorio")
 parser.add_argument('--dport', type=int, help="Puerto de comunicacion del agente de directorio")
@@ -134,7 +135,7 @@ def infoagent_search_message(addr, ragn_uri):
 
     gmess.bind('foaf', FOAF)
     gmess.bind('iaa', IAA)
-    reg_obj = agn[AgentePersonal.name+'-info-search']
+    reg_obj = agn[AgentePersonal.name + '-info-search']
     gmess.add((reg_obj, RDF.type, IAA.Search))
 
     msg = build_message(gmess, perf=ACL.request,

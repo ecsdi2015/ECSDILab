@@ -13,7 +13,6 @@ haya que registrarse y obtener una clave de desarrollador en su web
 
 __author__ = 'javier'
 
-
 import requests
 
 # Endpoint que da previsiones del tiempo a 5 dias
@@ -24,7 +23,7 @@ WEATHER_END_POINT = 'http://api.openweathermap.org/data/2.5/forecast'
 r = requests.get(WEATHER_END_POINT,
                  params={'q': 'Barcelona,es', 'units': 'metric',
                          'mode': 'json', 'cnt': '3'
-            })
+                         })
 
 # Transformamos la respuesta de JSON a un diccionario python
 dic = r.json()

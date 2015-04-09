@@ -13,9 +13,10 @@ Webservice flask con tres entradas
 
 from multiprocessing import Process
 from flask import Flask, request, render_template
-from time import  sleep
+from time import sleep
 
 app = Flask(__name__)
+
 
 @app.route("/")
 def hello():
@@ -25,6 +26,7 @@ def hello():
     """
     return "Hello World!"
 
+
 @app.route("/pag")
 def pag():
     """
@@ -32,8 +34,8 @@ def pag():
     :return:
     """
     return render_template('file.html', values=range(10))
-    
-    
+
+
 @app.route("/agent1", methods=['GET', 'POST'])
 def agent1():
     """
@@ -45,6 +47,7 @@ def agent1():
     else:
         return "Message Received\n"
 
+
 def mainloop():
     """
     Proceso concurrente haciendo sus cosas
@@ -54,10 +57,10 @@ def mainloop():
         print 'Este poceso es concurrente', i
         sleep(3)
     print 'y ya se acabo'
-    
+
 
 if __name__ == "__main__":
-    p1=Process(target=mainloop)
+    p1 = Process(target=mainloop)
     p1.start()
     app.run()
 

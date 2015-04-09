@@ -25,7 +25,8 @@ from AgentUtil.Logging import config_logger
 
 # Definimos los parametros de la linea de comandos
 parser = argparse.ArgumentParser()
-parser.add_argument('--open', help="Define si el servidor esta abierto al exterior o no", action='store_true', default=False)
+parser.add_argument('--open', help="Define si el servidor esta abierto al exterior o no", action='store_true',
+                    default=False)
 parser.add_argument('--port', type=int, help="Puerto de comunicacion del agente")
 parser.add_argument('--dhost', default='localhost', help="Host del agente de directorio")
 parser.add_argument('--dport', type=int, help="Puerto de comunicacion del agente de directorio")
@@ -84,6 +85,7 @@ dsgraph = Graph()
 # Cola de comunicacion entre procesos
 cola1 = Queue()
 
+
 def register_message():
     """
     Envia un mensaje de registro al servicio de registro
@@ -103,7 +105,7 @@ def register_message():
     # Construimos el mensaje de registro
     gmess.bind('foaf', FOAF)
     gmess.bind('dso', DSO)
-    reg_obj = agn[InfoAgent.name+'-Register']
+    reg_obj = agn[InfoAgent.name + '-Register']
     gmess.add((reg_obj, RDF.type, DSO.Register))
     gmess.add((reg_obj, DSO.Uri, InfoAgent.uri))
     gmess.add((reg_obj, FOAF.Name, Literal(InfoAgent.name)))
@@ -112,23 +114,25 @@ def register_message():
 
     # Lo metemos en un envoltorio FIPA-ACL y lo enviamos
     gr = send_message(
-            build_message(gmess, perf= ACL.request,
-                      sender= InfoAgent.uri,
-                      receiver= DirectoryAgent.uri,
-                      content= reg_obj,
-                      msgcnt= mss_cnt),
-            DirectoryAgent.address)
+        build_message(gmess, perf=ACL.request,
+                      sender=InfoAgent.uri,
+                      receiver=DirectoryAgent.uri,
+                      content=reg_obj,
+                      msgcnt=mss_cnt),
+        DirectoryAgent.address)
     mss_cnt += 1
 
     return gr
 
-@app.route("/iface", methods=['GET','POST'])
+
+@app.route("/iface", methods=['GET', 'POST'])
 def browser_iface():
     """
     Permite la comunicacion con el agente via un navegador
     via un formulario
     """
     return 'Nothing to see here'
+
 
 @app.route("/Stop")
 def stop():
@@ -160,7 +164,7 @@ def comunicacion():
     logger.info('Peticion de informacion recibida')
 
     # Extraemos el mensaje y creamos un grafo con el
-    message= request.args['content']
+    message = request.args['content']
     gm = Graph()
     gm.parse(data=message)
 
@@ -184,15 +188,15 @@ def comunicacion():
             # Averiguamos el tipo de la accion
             if 'content' in msgdic:
                 content = msgdic['content']
-                accion = gm.value(subject=content, predicate= RDF.type)
+                accion = gm.value(subject=content, predicate=RDF.type)
 
             # Aqui realizariamos lo que pide la accion
             # Por ahora simplemente retornamos un Inform-done
             gr = build_message(Graph(),
-                               ACL['inform-done'],
-                               sender=InfoAgent.uri,
-                               msgcnt=mss_cnt,
-                               receiver=msgdic['sender'],)
+                ACL['inform-done'],
+                sender=InfoAgent.uri,
+                msgcnt=mss_cnt,
+                receiver=msgdic['sender'], )
     mss_cnt += 1
 
     logger.info('Respondemos a la peticion')
@@ -229,8 +233,9 @@ def agentbehavior1(cola):
         else:
             print v
 
-    # Selfdestruct
-    # requests.get(InfoAgent.stop)
+            # Selfdestruct
+            # requests.get(InfoAgent.stop)
+
 
 if __name__ == '__main__':
     # Ponemos en marcha los behaviors

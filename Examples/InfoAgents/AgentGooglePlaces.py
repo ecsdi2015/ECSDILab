@@ -23,14 +23,13 @@ from AgentUtil.APIKeys import GOOGLEAPI_KEY
 google_places = GooglePlaces(GOOGLEAPI_KEY)
 
 query_result = google_places.nearby_search(
-        location=u'Barcelona, España', keyword='metro',
-        radius=300, types=['bus_station'])
+    location=u'Barcelona, España', keyword='metro',
+    radius=300, types=['bus_station'])
 
 # Imprimimos informacion de los resultados
 print query_result
 if query_result.has_attributions:
     print query_result.html_attributions
-
 
 for place in query_result.places:
     # Returned places from a query are place summaries.
@@ -42,6 +41,6 @@ for place in query_result.places:
     place.get_details()
     # Referencing any of the attributes below, prior to making a call to
     # get_details() will raise a googleplaces.GooglePlacesAttributeError.
-    pprint.pprint(place.details) # A dict matching the JSON response from Google.
+    pprint.pprint(place.details)  # A dict matching the JSON response from Google.
     print place.local_phone_number
 

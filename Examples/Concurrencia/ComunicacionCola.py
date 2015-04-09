@@ -12,6 +12,7 @@ __author__ = 'javier'
 from multiprocessing import Process, Queue
 import time
 
+
 def cuenta(q):
     time.sleep(1)
     while q.empty():
@@ -20,8 +21,9 @@ def cuenta(q):
         print q.get(timeout=0.3)
         time.sleep(1)
 
+
 if __name__ == '__main__':
-    q=Queue()
+    q = Queue()
     p = Process(target=cuenta, args=(q,))
     p.start()
     for i in range(10):

@@ -16,14 +16,17 @@ http://127.0.0.1:5000/servicio?x=3&y=4
 """
 __author__ = 'bejar'
 
-from flask import Flask,request
+from flask import Flask, request
+
 app = Flask(__name__)
+
 
 @app.route("/servicio")
 def servicio():
     x = int(request.args['x'])
     y = int(request.args['y'])
-    return str(x+y)
+    return str(x + y)
+
 
 if __name__ == '__main__':
     app.run()

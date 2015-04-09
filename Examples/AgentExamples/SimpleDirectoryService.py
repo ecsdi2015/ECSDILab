@@ -34,7 +34,8 @@ from AgentUtil.Logging import config_logger
 
 # Definimos los parametros de la linea de comandos
 parser = argparse.ArgumentParser()
-parser.add_argument('--open', help="Define si el servidor est abierto al exterior o no", action='store_true', default=False)
+parser.add_argument('--open', help="Define si el servidor est abierto al exterior o no", action='store_true',
+                    default=False)
 parser.add_argument('--port', type=int, help="Puerto de comunicacion del agente")
 
 # Logging
@@ -64,7 +65,6 @@ dsgraph.bind('rdfs', RDFS)
 dsgraph.bind('foaf', FOAF)
 dsgraph.bind('dso', DSO)
 
-
 agn = Namespace("http://www.agentes.org#")
 DirectoryAgent = Agent('DirectoryAgent',
                        agn.Directory,
@@ -74,6 +74,7 @@ app = Flask(__name__)
 mss_cnt = 0
 
 cola1 = Queue()  # Cola de comunicacion entre procesos
+
 
 @app.route("/Register")
 def register():
@@ -87,6 +88,7 @@ def register():
 
     :return:
     """
+
     def process_register():
         # Si la hay extraemos el nombre del agente (FOAF.Name), el URI del agente
         # su direccion y su tipo
@@ -107,10 +109,10 @@ def register():
 
         # Generamos un mensaje de respuesta
         return build_message(Graph(),
-                             ACL.confirm,
-                             sender=DirectoryAgent.uri,
-                             receiver=agn_uri,
-                             msgcnt=mss_cnt)
+            ACL.confirm,
+            sender=DirectoryAgent.uri,
+            receiver=agn_uri,
+            msgcnt=mss_cnt)
 
     def process_search():
         # Asumimos que hay una accion de busqueda que puede tener
@@ -144,13 +146,13 @@ def register():
         else:
             # Si no encontramos nada retornamos un inform sin contenido
             return build_message(Graph(),
-                                 ACL.inform,
-                                 sender=DirectoryAgent.uri,
-                                 msgcnt=mss_cnt)
+                ACL.inform,
+                sender=DirectoryAgent.uri,
+                msgcnt=mss_cnt)
 
     global dsgraph
     global mss_cnt
-    #Extraemos el mensaje y creamos un grafo con él
+    # Extraemos el mensaje y creamos un grafo con él
     message = request.args['content']
     gm = Graph()
     gm.parse(data=message)
@@ -161,17 +163,17 @@ def register():
     if not msgdic:
         # Si no es, respondemos que no hemos entendido el mensaje
         gr = build_message(Graph(),
-                           ACL['not-understood'],
-                           sender=DirectoryAgent.uri,
-                           msgcnt=mss_cnt)
+            ACL['not-understood'],
+            sender=DirectoryAgent.uri,
+            msgcnt=mss_cnt)
     else:
         # Obtenemos la performativa
         if msgdic['performative'] != ACL.request:
             # Si no es un request, respondemos que no hemos entendido el mensaje
             gr = build_message(Graph(),
-                               ACL['not-understood'],
-                               sender=DirectoryAgent.uri,
-                               msgcnt=mss_cnt)
+                ACL['not-understood'],
+                sender=DirectoryAgent.uri,
+                msgcnt=mss_cnt)
         else:
             # Extraemos el objeto del contenido que ha de ser una accion de la ontologia
             # de registro
@@ -188,9 +190,9 @@ def register():
             # No habia ninguna accion en el mensaje
             else:
                 gr = build_message(Graph(),
-                                   ACL['not-understood'],
-                                   sender=DirectoryAgent.uri,
-                                   msgcnt=mss_cnt)
+                    ACL['not-understood'],
+                    sender=DirectoryAgent.uri,
+                    msgcnt=mss_cnt)
     mss_cnt += 1
     return gr.serialize(format='xml')
 
@@ -216,7 +218,6 @@ def stop():
     return "Parando Servidor"
 
 
-
 def tidyup():
     """
     Acciones previas a parar el agente
@@ -224,6 +225,7 @@ def tidyup():
     """
     global cola1
     cola1.put(0)
+
 
 def agentbehavior1(cola):
     """
@@ -241,9 +243,10 @@ def agentbehavior1(cola):
         else:
             print v
 
+
 if __name__ == '__main__':
     # Ponemos en marcha los behaviours como procesos
-    ab1 = Process(target=agentbehavior1,args=(cola1,))
+    ab1 = Process(target=agentbehavior1, args=(cola1,))
     ab1.start()
 
     # Ponemos en marcha el servidor Flask
