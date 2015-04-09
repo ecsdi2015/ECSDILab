@@ -25,7 +25,7 @@ from AgentUtil.Logging import config_logger
 
 # Definimos los parametros de la linea de comandos
 parser = argparse.ArgumentParser()
-parser.add_argument('--open', help="Define si el servidor est abierto al exterior o no", action='store_true', default=False)
+parser.add_argument('--open', help="Define si el servidor esta abierto al exterior o no", action='store_true', default=False)
 parser.add_argument('--port', type=int, help="Puerto de comunicacion del agente")
 parser.add_argument('--dhost', default='localhost', help="Host del agente de directorio")
 parser.add_argument('--dport', type=int, help="Puerto de comunicacion del agente de directorio")
@@ -159,7 +159,7 @@ def comunicacion():
 
     logger.info('Peticion de informacion recibida')
 
-    #Extraemos el mensaje y creamos un grafo con el
+    # Extraemos el mensaje y creamos un grafo con el
     message= request.args['content']
     gm = Graph()
     gm.parse(data=message)
@@ -178,7 +178,7 @@ def comunicacion():
             # Si no es un request, respondemos que no hemos entendido el mensaje
             gr = build_message(Graph(), ACL['not-understood'], sender=InfoAgent.uri, msgcnt=mss_cnt)
         else:
-            #Extraemos el objeto del contenido que ha de ser una accion de la ontologia de acciones del agente
+            # Extraemos el objeto del contenido que ha de ser una accion de la ontologia de acciones del agente
             # de registro
 
             # Averiguamos el tipo de la accion
@@ -230,11 +230,11 @@ def agentbehavior1(cola):
             print v
 
     # Selfdestruct
-    #requests.get(InfoAgent.stop)
+    # requests.get(InfoAgent.stop)
 
 if __name__ == '__main__':
     # Ponemos en marcha los behaviors
-    ab1=Process(target=agentbehavior1, args=(cola1,))
+    ab1 = Process(target=agentbehavior1, args=(cola1,))
     ab1.start()
 
     # Ponemos en marcha el servidor

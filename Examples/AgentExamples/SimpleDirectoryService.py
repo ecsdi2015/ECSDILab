@@ -148,11 +148,10 @@ def register():
                                  sender=DirectoryAgent.uri,
                                  msgcnt=mss_cnt)
 
-
     global dsgraph
     global mss_cnt
     #Extraemos el mensaje y creamos un grafo con él
-    message= request.args['content']
+    message = request.args['content']
     gm = Graph()
     gm.parse(data=message)
 
@@ -174,7 +173,7 @@ def register():
                                sender=DirectoryAgent.uri,
                                msgcnt=mss_cnt)
         else:
-            #Extraemos el objeto del contenido que ha de ser una accion de la ontologia
+            # Extraemos el objeto del contenido que ha de ser una accion de la ontologia
             # de registro
             content = msgdic['content']
             # Averiguamos el tipo de la accion
