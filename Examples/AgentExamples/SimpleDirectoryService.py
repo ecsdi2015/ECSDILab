@@ -190,9 +190,9 @@ def register():
             # No habia ninguna accion en el mensaje
             else:
                 gr = build_message(Graph(),
-                    ACL['not-understood'],
-                    sender=DirectoryAgent.uri,
-                    msgcnt=mss_cnt)
+                        ACL['not-understood'],
+                        sender=DirectoryAgent.uri,
+                        msgcnt=mss_cnt)
     mss_cnt += 1
     return gr.serialize(format='xml')
 
