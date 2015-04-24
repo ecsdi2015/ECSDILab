@@ -26,9 +26,8 @@ from AgentUtil.SPARQLPoints import DBPEDIA
 # Configuramos el SPARQL de wikipedia
 sparql = SPARQLWrapper(DBPEDIA)
 
-# Obtenemos tods los tipos asignados a barcelona
-# Si hacemos una query obtenemos un objeto de tipo answerset
-# que contiene las vinculaciones de las variables de la query
+# Obtenemos tods los atributos que tienen como dominio
+# las clases asignadas a Barcelona
 sparql.setQuery("""
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -52,6 +51,8 @@ print 'Propiedades con el dominio'
 print '-------------------------------------------'
 results.print_results()
 
+# Obtenemos tods los atributos que tienen como rango
+# las clases asignadas a Barcelona
 sparql.setQuery("""
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
