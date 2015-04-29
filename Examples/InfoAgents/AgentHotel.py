@@ -32,7 +32,7 @@ r = requests.get(EAN_END_POINT,
                  params={'apiKey': EANKEY, 'cid': EANCID, 'numberOfResults': 10,
                          'latitude': '041.40000', 'longitude': '002.16000',
                          'searchRadius': 2, 'searchRadiusUnit': 'KM',
-                         'arrivalDate': '04/12/2015', 'departureDate': '04/15/2015'
+                         'arrivalDate': '04/29/2015', 'departureDate': '05/03/2015'
                          })
 
 # Generamos un diccionario python de la respuesta en JSON
@@ -40,4 +40,11 @@ dic = r.json()
 
 # Imprimimos la informacion del nombre de los hores de los resultados
 for hot in dic['HotelListResponse']['HotelList']['HotelSummary']:
-    print hot['name']
+    h= hot['hotelId']
+    print h
+    r = requests.get('http://api.ean.com/ean-services/rs/hotel/v3/info',
+                 params={'apiKey': EANKEY, 'cid': EANCID, 'apiExperience': 'PARTNER_WEBSITE' , 'hotelId': h})
+
+    ndic =  r.json()
+    print ndic
+# print dic['HotelListResponse']['HotelList'].keys()
