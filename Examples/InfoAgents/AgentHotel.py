@@ -40,11 +40,14 @@ dic = r.json()
 
 # Imprimimos la informacion del nombre de los hores de los resultados
 for hot in dic['HotelListResponse']['HotelList']['HotelSummary']:
-    h= hot['hotelId']
-    print h
+    h = hot['hotelId']
+    print '**************************'
+    print  hot['name'], 'ID=', h
     r = requests.get('http://api.ean.com/ean-services/rs/hotel/v3/info',
-                 params={'apiKey': EANKEY, 'cid': EANCID, 'apiExperience': 'PARTNER_WEBSITE' , 'hotelId': h})
+                 params={'apiKey': EANKEY, 'cid': EANCID, 'apiExperience': 'PARTNER_WEBSITE', 'hotelId': h})
 
     ndic =  r.json()
-    print ndic
-# print dic['HotelListResponse']['HotelList'].keys()
+    print '---------------------------'
+    for val in  ndic['HotelInformationResponse']['HotelDetails']:
+        print val, ':', ndic['HotelInformationResponse']['HotelDetails'][val]
+    print '---------------------------'
